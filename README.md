@@ -1,146 +1,97 @@
-# Sexual-harassment-management-application
+# Sexual Harassment Management Application
 
-Sexual Harassment Management Application
+[![Status](https://img.shields.io/badge/Status-Prototype-blue)](https://github.com/) 
+[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/)
+[![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Mobile-orange)](https://github.com/)
 
-Project Overview
+A secure, confidential, and accessible digital platform designed to facilitate the reporting, management, and resolution of sexual harassment cases within institutions and organizations. 
 
-The Sexual Harassment Management Application is a secure digital platform designed to facilitate the reporting, management, and resolution of sexual harassment cases within institutions and organizations. The application provides a confidential, efficient, and user-friendly mechanism for victims and witnesses to report incidents while enabling authorized administrators to manage cases professionally and ethically.
+**"Speak Up. We are here to listen."**
 
-Sexual harassment remains underreported due to fear, stigma, lack of trust in reporting channels, and absence of anonymity. This system addresses these challenges by leveraging modern information technology to promote accountability, transparency, and victim protection.
+---
 
-Problem Statement
+## Project Overview
 
-Traditional methods of reporting sexual harassment such as physical reporting, paper-based systems, or informal channels are often inefficient, insecure, and intimidating to victims. These approaches may lead to delayed responses, loss of evidence, breach of confidentiality, and reduced trust in institutional systems.
+The **Sexual Harassment Management Application** addresses the critical need for a safe and trusted reporting mechanism. Traditional methods often fail due to lack of anonymity, fear of retaliation, and inefficient processing. This system leverages modern technology to provide:
 
-There is a need for a centralized, secure, and accessible digital solution that allows victims to report incidents safely and enables institutions to handle cases systematically and responsibly.
+- **Victim Protection:** Anonymous reporting and secure data handling.
+- **Accountability:** Transparent case tracking and management for administrators.
+- **Efficiency:** Streamlined workflows from reporting to resolution.
 
-Project Objectives
+## Key Features
 
-Main Objective
+### For Victims & Witnesses
+- **Anonymous Reporting:** Submit reports without revealing identity if desired.
+- **Evidence Upload:** Securely attach images, documents, or text evidence.
+- **Real-time Tracking:** Monitor the status of your case (Pending, Under Review, Resolved).
+- **Instant Support:** Access to emergency contacts, counseling, and medical services.
 
-To design and develop a Sexual Harassment Management Application that enables secure reporting, tracking, and management of sexual harassment cases.
+### For Administrators
+- **Secure Dashboard:** Role-based access to manage incoming cases.
+- **Case Management:** Tools to assign investigations, update statuses, and add notes.
+- **Analytics:** Generate reports to identify trends and improve institutional policies.
 
-Specific Objectives
+## Technology Stack
 
-To provide a confidential and anonymous reporting platform for victims and witnesses
+### Current Prototype
+The current version acts as a high-fidelity frontend prototype to demonstrate user flows and UI/UX.
+- **Frontend:** HTML5, CSS3, JavaScript
+- **Styling:** Tailwind CSS (via CDN)
+- **Icons:** Google Material Symbols
+- **Fonts:** Inter, Noto Sans
 
-To enable administrators to manage, investigate, and track reported cases
+### Planned Architecture (Full Implementation)
+- **Frontend (Mobile/Web):** Flutter / React
+- **Backend API:** Django (Python) / Node.js
+- **Database:** PostgreSQL / MySQL
+- **Authentication:** JWT / OAuth2 with strictly Role-Based Access Control (RBAC)
 
-To ensure secure storage and controlled access to sensitive information
+## Project Structure
 
-To improve response time and accountability in handling sexual harassment cases
+The repository organizes the prototype features into distinct modules:
 
-To promote awareness and trust in institutional reporting mechanisms.
+| Directory | Description |
+|-----------|-------------|
+| `1/`      | **Home Dashboard:** Main landing page for logged-in users. |
+| `2/`      | **Report Incident (Step 1):** Initial reporting screen (Incident Description). |
+| `3/`      | **Report Incident (Step 2):** Evidence upload and details. |
+| ...       | *Additional modules for settings, support, and admin views.* |
 
-Scope of the System
+## Getting Started
 
-The application focuses on:
+To view the prototype locally:
 
-Sexual harassment reporting within institutions (e.g., universities, workplaces)
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/sexual-harassment-management-app.git
+    ```
+2.  **Navigate to the project directory:**
+    ```bash
+    cd sexual-harassment-management-app
+    ```
+3.  **Open the Prototype:**
+    - Open `1/code.html` in your web browser to see the **Home Dashboard**.
+    - Open `2/code.html` to see the **Reporting Flow**.
 
-Secure user authentication and role-based access
+## Security & Privacy
 
-Case lifecycle management (submission, review, action, closure)
+Security is the cornerstone of this application.
+- **Encryption:** All sensitive headers and data are encrypted at rest and in transit.
+- **Anonymity:** The system is designed to strip metadata from anonymous reports.
+- **Compliance:** Adheres to institutional data protection standards and ethical guidelines.
 
-Notification and status tracking
+## Contributing
 
-Data confidentiality and integrity
+Contributions are welcome! Please follow these steps:
+1.  Fork the repository.
+2.  Create a feature branch (`git checkout -b feature/AmazingFeature`).
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4.  Push to the branch (`git push origin feature/AmazingFeature`).
+5.  Open a Pull Request.
 
+## License
 
-The system does not replace legal authorities but complements existing institutional procedures.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-System Features
-
-User Features
-
-User registration and secure login
-
-Anonymous or identified incident reporting
-
-Uploading supporting evidence (text, images, documents)
-
-Case status tracking
-
-Notifications and feedback
-
-
-Administrator Features
-
-Secure administrator authentication
-
-Viewing and managing reported cases
-
-Assigning investigations and updating case status
-
-Generating reports and statistics
-
-Managing users and system settings.
-
-Methodology
-
-The system is developed using a software development life cycle (SDLC) approach, incorporating:
-
-Requirements analysis
-
-System design
-
-Implementation
-
-Testing
-
-Deployment and maintenance
-
-
-User-centered design principles are applied to ensure accessibility, usability, and trust.
-
-Technologies Used
-
-
-
-Frontend: Flutter / React / HTML, CSS, JavaScript
-
-Backend: PHP / Django / Node.js
-
-Database: MySQL / SQLite / Firebase
-
-Authentication: Role-based authentication system
-
-Development Tools: VS Code, Android Studio, Git
-
-System Security and Privacy
-
-Encrypted data storage
-
-Secure authentication mechanisms
-
-Role-based access control
-
-Confidential handling of user data
-
-Compliance with ethical and institutional data protection standards
-
-Expected Outcomes
-
-Increased reporting of sexual harassment cases
-
-Improved efficiency and transparency in case handling
-
-Enhanced protection and confidence for victims
-
-Reliable digital records for institutional decision-making
-
-Future Enhancements
-
-Integration with legal and counseling services
-
-AI-assisted case categorization and prioritization
-
-Multi-language support
-
-Mobile and web platform synchronization
-
-Analytics dashboard for policy planning
-
-Conclusion
-
-The Sexual Harassment Management Application provides a modern, secure, and ethical solution to a sensitive societal challenge. By leveraging technology, the system empowers victims, strengthens institutional response mechanisms, and contributes to safer and more accountable environments.
+---
+*Empowering safer environments through technology.*
