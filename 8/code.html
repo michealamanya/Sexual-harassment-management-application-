@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings - Report Safely</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#131aec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101122",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e1e2e",
+                        "text-primary-light": "#111118",
+                        "text-primary-dark": "#ffffff",
+                        "text-secondary-light": "#6b7280",
+                        "text-secondary-dark": "#9ca3af",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding for cleaner mobile look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark antialiased transition-colors duration-200">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Header -->
+<header class="shrink-0 z-10 bg-surface-light dark:bg-surface-dark/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-200">
+<div class="flex items-center justify-between px-4 py-3">
+<h1 class="text-xl font-bold tracking-tight">Settings</h1>
+<div class="flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden border border-gray-200 dark:border-gray-700">
+<img class="h-full w-full object-cover" data-alt="Mbarara University of Science &amp; Technology Logo crest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn5bxKaZbR6Cagd8TKMLsDkq2p_ht6kVV8pYrmh2y7XTgwly3UDkyqggmPRxZ82Rtq83qx1McWFTq0foZOhUJxXXiw68ij51QjSL7NgQ30B-wLQYo4S_5BN4Or5388VmecVYkLEuhUlb3_Lhj0BI7xB7umvLTb-mnmFbqMH5WExixoedh-rhmLZaR55GVygs1NLqPkrHHdJbOM_PWJYzquyhTOtbSGa7AbEvGUhNm5rSE4GnFtyLIMpQxCZ3V6LPH6QuxwI8_ss5w"/>
+</div>
+</div>
+</header>
+<!-- Main Content (Scrollable) -->
+<main class="flex-1 overflow-y-auto no-scrollbar pb-24 px-4 pt-4">
+<!-- Profile Section -->
+<section class="mb-6">
+<h3 class="sr-only">Profile</h3>
+<div class="group flex items-center gap-4 bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 cursor-pointer active:scale-[0.99] transition-transform">
+<div class="relative">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-14 w-14 border-2 border-white dark:border-gray-700 shadow-sm" data-alt="User profile avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDNf-3VCqyB339xvWfXPXQXbcMpLZ_Bx4bjqjaN3Dif08Bb2NBT-0xKF7slIkEDY3oAMzLDdBg0fhefcVtEmx1ys-sNtckOH72XSFBbRyNm4MQX2NgiggbNhZtcbNEnbn4BncUI-lcG0mlgRQ5NcJWlKzFyhImtJLX6WX5walUHJ3C9rAWP478yI2GzxSJNni_ymX_PZSSTR88lei_oSLAjR69RUT_M1nhWOvXzzwefdVQ5u-kjIR9v2yabwSPZdQrD-VyzH6fJIA4");'></div>
+<div class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-white dark:border-gray-800"></div>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-base font-semibold truncate">Jane Doe</p>
+<p class="text-sm text-text-secondary-light dark:text-text-secondary-dark truncate">Student • Bachelors of IT</p>
+</div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+</div>
+</section>
+<!-- App Settings Group -->
+<section class="mb-6">
+<h3 class="px-2 pb-2 text-sm font-semibold text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">General</h3>
+<div class="flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-gray-100 dark:border-gray-800">
+<!-- Notifications -->
+<div class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800 last:border-0">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 size-8 shrink-0">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</div>
+<span class="text-sm font-medium">Notifications</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Security -->
+<button class="flex items-center justify-between p-4 w-full text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors active:bg-gray-100 dark:active:bg-gray-800">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center rounded-lg bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 size-8 shrink-0">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</div>
+<span class="text-sm font-medium">Security &amp; PIN</span>
+</div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[20px]">chevron_right</span>
+</button>
+<!-- Language -->
+<button class="flex items-center justify-between p-4 w-full text-left border-t border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors active:bg-gray-100 dark:active:bg-gray-800">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 size-8 shrink-0">
+<span class="material-symbols-outlined text-[20px]">language</span>
+</div>
+<span class="text-sm font-medium">Language</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-text-secondary-light dark:text-text-secondary-dark">English</span>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[20px]">chevron_right</span>
+</div>
+</button>
+</div>
+</section>
+<!-- Support & Legal Group -->
+<section class="mb-8">
+<h3 class="px-2 pb-2 text-sm font-semibold text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">Information</h3>
+<div class="flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-gray-100 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-800">
+<!-- Help & Support -->
+<button class="flex items-center justify-between p-4 w-full text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors active:bg-gray-100 dark:active:bg-gray-800">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center rounded-lg bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 size-8 shrink-0">
+<span class="material-symbols-outlined text-[20px]">help</span>
+</div>
+<span class="text-sm font-medium">Help &amp; Support</span>
+</div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[20px]">chevron_right</span>
+</button>
+<!-- Privacy Policy -->
+<button class="flex items-center justify-between p-4 w-full text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors active:bg-gray-100 dark:active:bg-gray-800">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 size-8 shrink-0">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<span class="text-sm font-medium">Privacy Policy</span>
+</div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[20px]">chevron_right</span>
+</button>
+<!-- Terms of Service -->
+<button class="flex items-center justify-between p-4 w-full text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors active:bg-gray-100 dark:active:bg-gray-800">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 size-8 shrink-0">
+<span class="material-symbols-outlined text-[20px]">description</span>
+</div>
+<span class="text-sm font-medium">Terms of Service</span>
+</div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[20px]">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Actions -->
+<section class="mb-8">
+<button class="w-full rounded-xl bg-surface-light dark:bg-surface-dark border border-gray-100 dark:border-gray-800 p-4 text-center text-red-600 dark:text-red-400 font-semibold text-base shadow-sm active:bg-red-50 dark:active:bg-red-900/20 transition-colors">
+                    Log Out
+                </button>
+<div class="mt-6 text-center">
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Report Safely for MUST</p>
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark mt-1">Version 1.0.2</p>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 w-full bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-800 px-6 py-2 z-20">
+<div class="flex justify-between items-center max-w-md mx-auto">
+<!-- Home -->
+<button class="flex flex-col items-center gap-1 p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<!-- My Reports -->
+<button class="flex flex-col items-center gap-1 p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">folder_shared</span>
+<span class="text-[10px] font-medium">My Reports</span>
+</button>
+<!-- Support -->
+<button class="flex flex-col items-center gap-1 p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">contact_support</span>
+<span class="text-[10px] font-medium">Support</span>
+</button>
+<!-- Settings (Active) -->
+<button class="flex flex-col items-center gap-1 p-2 text-primary dark:text-primary">
+<span class="material-symbols-outlined text-[24px] fill-current">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</button>
+</div>
+<!-- iOS Home Indicator Safe Area spacing -->
+<div class="h-4 w-full"></div>
+</nav>
+</div>
+<script>
+        // Simple script to demonstrate dark mode toggling support (if needed by system)
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+</body></html>
