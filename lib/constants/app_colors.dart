@@ -37,4 +37,12 @@ class AppColors {
   // Miscellaneous
   static const Color divider = Color(0xFFBDBDBD);
   static const Color disabled = Color(0xFF9E9E9E);
+  static const Color danger = Color(0xFFDC3545);
+  static const Color borderMedium = Color(0xFFCCCCCC);
+
+  static Color? get white => null;
+
+  static Color? get textDark => null;
+
+  static Color? get avatarOrange => null;
 }

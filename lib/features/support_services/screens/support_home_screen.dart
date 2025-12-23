@@ -20,6 +20,7 @@ class SupportHomeScreen extends StatefulWidget {
 class _SupportHomeScreenState extends State<SupportHomeScreen> {
   final SupportService _supportService = SupportService();
   List<EmergencyContact> _priorityContacts = [];
+  // ignore: unused_field
   bool _isLoading = true;
 
   @override

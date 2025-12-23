@@ -6,6 +6,7 @@ import '../widgets/settings_tile.dart';
 import 'home_screen.dart';
 import 'profile_screen.dart';
 
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -49,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   width: 2,
                 ),
               ),
-              child: const Center(
+              child: Center(
                 child: Icon(
                   Icons.person,
                   color: AppColors.white,

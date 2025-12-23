@@ -250,7 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // Full Name
           Text(
             'Full Name',
-            style: AppStyles.label.copyWith(
+            style: AppStyles.bodySmall.copyWith(
               color: AppColors.textGray,
               fontSize: 13,
             ),
@@ -275,7 +275,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // University ID
           Text(
             'University ID',
-            style: AppStyles.label.copyWith(
+            style: AppStyles.bodySmall.copyWith(
               color: AppColors.textGray,
               fontSize: 13,
             ),
@@ -319,7 +319,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // Email Address
           Text(
             'Email Address',
-            style: AppStyles.label.copyWith(
+            style: AppStyles.bodySmall.copyWith(
               color: AppColors.textGray,
               fontSize: 13,
             ),
@@ -344,7 +344,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // Department/Faculty
           Text(
             'Department/Faculty',
-            style: AppStyles.label.copyWith(
+            style: AppStyles.bodySmall.copyWith(
               color: AppColors.textGray,
               fontSize: 13,
             ),
@@ -435,7 +435,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text(
               'Delete Account',
               style: AppStyles.bodyMedium.copyWith(
-                color: AppColors.danger,
+                color: const Color(0xFFDC3545),
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -454,8 +454,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.textDark,
-          side: const BorderSide(
-            color: AppColors.borderMedium,
+          side: BorderSide(
+            color: AppColors.borderLight,
             width: 1,
           ),
           shape: RoundedRectangleBorder(

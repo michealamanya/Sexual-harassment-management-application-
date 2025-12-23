@@ -199,7 +199,7 @@ class SupportService {
         resourceType: LegalResourceType.legalAidOrganization,
         contactNumber: '1-800-LEGAL-AID',
         email: 'help@legalaid.org',
-        providesFreConsultation: true,
+        providesFreeConsultation: true,
         servicesOffered: [
           'Free legal consultation',
           'Court representation',
