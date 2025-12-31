@@ -7,13 +7,14 @@ import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/settings_screen.dart';
+import 'screens/my_reports_screen.dart';
 import 'services/enhanced_ai_service.dart';
 import 'services/auth_service.dart';
 import 'constants/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Firebase only if not already initialized
   try {
     await Firebase.initializeApp(
@@ -27,7 +28,7 @@ void main() async {
       rethrow;
     }
   }
-  
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -43,9 +44,7 @@ class ReportHarassmentApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => EnhancedAIService()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => EnhancedAIService())],
       child: MaterialApp(
         title: 'Report Harassment',
         debugShowCheckedModeBanner: false,
@@ -74,6 +73,7 @@ class ReportHarassmentApp extends StatelessWidget {
           '/home': (context) => const HomeScreen(),
           '/login': (context) => const LoginScreen(),
           '/settings': (context) => const SettingsScreen(),
+          '/my_reports': (context) => const MyReportsScreen(),
         },
       ),
     );
@@ -87,23 +87,21 @@ class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = AuthService();
-    
+
     return StreamBuilder(
       stream: authService.authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
-        
+
         if (snapshot.hasData) {
           // User is logged in
           return const HomeScreen();
         }
-        
+
         // User is not logged in
         return const LoginScreen();
       },
