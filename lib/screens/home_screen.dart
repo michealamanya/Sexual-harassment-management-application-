@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../features/support_services/screens/support_home_screen.dart';
 import '../screens/my_reports_screen.dart';
+import '../screens/report_form_screen.dart';
 import '../services/reports_service.dart';
 import 'ai_powered_chat_screen.dart';
 import 'emergency_screen.dart';
 import 'settings_screen.dart';
 import 'privacy_screen.dart';
-import 'report_form_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,9 +29,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _loadReportCount() async {
     _reportsService.getUserReports().listen((reports) {
-      setState(() {
-        _reportCount = reports.length;
-      });
+      if (mounted) {
+        setState(() {
+          _reportCount = reports.length;
+        });
+      }
     });
   }
 
@@ -295,7 +297,10 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const ReportFormScreen()),
-          );
+          ).then((_) {
+            // Refresh or perform any action after returning
+            setState(() {});
+          });
         },
         backgroundColor: const Color(0xFF2f3293),
         foregroundColor: Colors.white,
