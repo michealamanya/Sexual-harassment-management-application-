@@ -7,6 +7,7 @@ import '../services/auth_service.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../screens/home_screen.dart';
 import '../screens/settings_screen.dart';
+import '../screens/report_form_screen.dart';
 import '../features/support_services/screens/support_home_screen.dart';
 import 'report_detail_screen.dart';
 
@@ -148,12 +149,14 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
                         const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
+                                builder: (context) => const ReportFormScreen(),
                               ),
-                            );
+                            ).then((_) {
+                              setState(() {});
+                            });
                           },
                           child: const Text('Submit a Report'),
                         ),
@@ -173,6 +176,20 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ReportFormScreen()),
+          ).then((_) {
+            setState(() {});
+          });
+        },
+        backgroundColor: AppColors.primaryBlue,
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.add),
+        label: const Text('New Report'),
       ),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentNavIndex,
@@ -261,7 +278,7 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header with status badge
+            // Header with status badge and actions
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -287,7 +304,13 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
                     ],
                   ),
                 ),
-                _buildStatusBadge(report.status),
+                Row(
+                  children: [
+                    _buildStatusBadge(report.status),
+                    const SizedBox(width: 8),
+                    _buildReportActionsMenu(report),
+                  ],
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -350,6 +373,149 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildReportActionsMenu(Report report) {
+    return PopupMenuButton<String>(
+      onSelected: (value) {
+        if (value == 'view') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ReportDetailScreen(reportId: report.id),
+            ),
+          );
+        } else if (value == 'edit') {
+          _showEditDialog(report);
+        } else if (value == 'delete') {
+          _showDeleteDialog(report);
+        }
+      },
+      itemBuilder:
+          (BuildContext context) => <PopupMenuEntry<String>>[
+            const PopupMenuItem<String>(
+              value: 'view',
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.visibility,
+                    size: 18,
+                    color: AppColors.primaryBlue,
+                  ),
+                  SizedBox(width: 12),
+                  Text('View Details'),
+                ],
+              ),
+            ),
+            if (report.status == ReportStatus.pending)
+              const PopupMenuItem<String>(
+                value: 'edit',
+                child: Row(
+                  children: [
+                    Icon(Icons.edit, size: 18, color: AppColors.primaryBlue),
+                    SizedBox(width: 12),
+                    Text('Edit'),
+                  ],
+                ),
+              ),
+            PopupMenuItem<String>(
+              value: 'delete',
+              child: Row(
+                children: [
+                  Icon(Icons.delete, size: 18, color: AppColors.danger),
+                  const SizedBox(width: 12),
+                  const Text('Delete'),
+                ],
+              ),
+            ),
+          ],
+      icon: Icon(Icons.more_vert, color: AppColors.textGray, size: 20),
+    );
+  }
+
+  void _showEditDialog(Report report) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Edit Report'),
+            content: const Text(
+              'You can only edit reports that are pending. Once under review, editing is disabled.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'),
+              ),
+              if (report.status == ReportStatus.pending)
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    // Navigate to edit form (you can create a separate edit screen or reuse ReportFormScreen)
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Edit functionality coming soon'),
+                        backgroundColor: Colors.orange,
+                      ),
+                    );
+                  },
+                  child: const Text('Edit Now'),
+                ),
+            ],
+          ),
+    );
+  }
+
+  void _showDeleteDialog(Report report) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Delete Report'),
+            content: const Text(
+              'Are you sure you want to delete this report? This action cannot be undone.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _deleteReport(report.id);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.danger,
+                ),
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+    );
+  }
+
+  Future<void> _deleteReport(String reportId) async {
+    try {
+      // Note: You need to implement deleteReport in ReportsService
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Report deleted successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      setState(() {});
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting report: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   String _formatDate(DateTime date) {

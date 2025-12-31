@@ -115,6 +115,16 @@ class ReportsService {
     }
   }
 
+  Future<void> deleteReport(String reportId) async {
+    try {
+      await _firestore.collection('reports').doc(reportId).delete();
+      developer.log('Report deleted: $reportId');
+    } catch (e) {
+      developer.log('Error deleting report: $e');
+      throw Exception('Failed to delete report.');
+    }
+  }
+
   Stream<Report?> watchReport(String reportId) {
     return _firestore
         .collection('reports')
