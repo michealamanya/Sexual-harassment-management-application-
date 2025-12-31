@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import '../widgets/bottom_nav_bar.dart';
-import '../features/support_services/support_services.dart';
 import '../features/support_services/screens/support_home_screen.dart';
+import '../screens/my_reports_screen.dart';
+import '../screens/report_form_screen.dart';
+import '../services/reports_service.dart';
 import 'ai_powered_chat_screen.dart';
 import 'emergency_screen.dart';
 import 'settings_screen.dart';
 import 'privacy_screen.dart';
-import 'report_form_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +18,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentNavIndex = 0;
+  final ReportsService _reportsService = ReportsService();
+  int _reportCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadReportCount();
+  }
+
+  Future<void> _loadReportCount() async {
+    _reportsService.getUserReports().listen((reports) {
+      if (mounted) {
+        setState(() {
+          _reportCount = reports.length;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,8 +189,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Track status of submitted cases',
                   Icons.folder_open,
                   Colors.blue,
-                  badge: '2',
-                  onTap: () {},
+                  badge: _reportCount > 0 ? '$_reportCount' : null,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyReportsScreen(),
+                      ),
+                    );
+                  },
                 ),
                 _buildServiceCard(
                   context,
@@ -183,7 +209,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const SupportHomeScreen(),
                         builder: (context) => const SupportHomeScreen(),
                       ),
                     );
@@ -272,7 +297,10 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const ReportFormScreen()),
-          );
+          ).then((_) {
+            // Refresh or perform any action after returning
+            setState(() {});
+          });
         },
         backgroundColor: const Color(0xFF2f3293),
         foregroundColor: Colors.white,
@@ -282,15 +310,31 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentNavIndex,
         onTap: (index) {
-          if (index == 3) {
+          if (index == 0) {
+            // Home - stay on home screen
+            setState(() {
+              _currentNavIndex = index;
+            });
+          } else if (index == 1) {
+            // My Reports
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MyReportsScreen()),
+            );
+          } else if (index == 2) {
+            // Support
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SupportHomeScreen(),
+              ),
+            );
+          } else if (index == 3) {
+            // Settings
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const SettingsScreen()),
             );
-          } else {
-            setState(() {
-              _currentNavIndex = index;
-            });
           }
         },
       ),

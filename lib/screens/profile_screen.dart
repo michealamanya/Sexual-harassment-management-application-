@@ -367,8 +367,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(height: 20),
           // Phone Number
           Text(
-            'Department/Faculty',
-            style: AppStyles.bodySmall.copyWith(
             'Phone Number',
             style: AppStyles.label.copyWith(
               color: AppColors.textGray,
@@ -465,38 +463,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
         onPressed: () {
           showDialog(
             context: context,
-            builder:
-                (context) => AlertDialog(
-                  title: const Text('Quick Exit'),
-                  content: const Text(
-                    'This will close the app immediately. Are you sure?',
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Cancel'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        SystemNavigator.pop();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: const Text('Exit Now'),
-                    ),
-                  ],
+            builder: (context) => AlertDialog(
+              title: const Text('Quick Exit'),
+              content: const Text(
+                'This will close the app immediately. Are you sure?',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel'),
                 ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    SystemNavigator.pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Exit Now'),
+                ),
+              ],
+            ),
           );
         },
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.textDark,
-          side: BorderSide(
-            color: AppColors.borderLight,
-            width: 1,
-          ),
           side: const BorderSide(color: AppColors.borderMedium, width: 1),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
