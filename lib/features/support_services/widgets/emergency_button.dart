@@ -34,15 +34,18 @@ class EmergencyButton extends StatelessWidget {
       }
     } catch (_) {
       if (context.mounted) {
-        _showError(context, 'An error occurred while trying to place the call.');
+        _showError(
+          context,
+          'An error occurred while trying to place the call.',
+        );
       }
     }
   }
 
   void _showError(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -50,13 +53,13 @@ class EmergencyButton extends StatelessWidget {
     final bgColor = backgroundColor ?? Colors.red[700]!;
 
     if (isCompact) {
-      return _buildCompactButton(bgColor);
+      return _buildCompactButton(context, bgColor);
     }
 
     return _buildFullButton(context, bgColor);
   }
 
-  Widget _buildCompactButton(Color bgColor) {
+  Widget _buildCompactButton(BuildContext context, Color bgColor) {
     return Material(
       color: bgColor,
       borderRadius: BorderRadius.circular(12),
@@ -151,10 +154,7 @@ class EmergencyButton extends StatelessWidget {
 class FloatingEmergencyButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const FloatingEmergencyButton({
-    super.key,
-    required this.onPressed,
-  });
+  const FloatingEmergencyButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -164,10 +164,7 @@ class FloatingEmergencyButton extends StatelessWidget {
       icon: const Icon(Icons.emergency, color: Colors.white),
       label: const Text(
         'Emergency',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }
