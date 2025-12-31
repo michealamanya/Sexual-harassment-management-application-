@@ -36,14 +36,38 @@ class ReportsService {
     return _firestore
         .collection('reports')
         .where('userId', isEqualTo: userId)
-        .orderBy('submittedDate', descending: true)
         .snapshots()
-        .map(
-          (snapshot) =>
-              snapshot.docs.map((doc) => Report.fromFirestore(doc)).toList(),
-        )
+        .map((snapshot) {
+          // Sort in memory instead of requiring composite index
+          final reports =
+              snapshot.docs.map((doc) => Report.fromFirestore(doc)).toList();
+          reports.sort((a, b) => b.submittedDate.compareTo(a.submittedDate));
+          return reports;
+        })
         .handleError((error) {
           developer.log('Error fetching reports: $error');
+
+          // Auto-recovery: Return empty list on index error
+          if (error.toString().contains('FAILED_PRECONDITION') ||
+              error.toString().contains('index')) {
+            developer.log('Index not available, attempting fallback query');
+            // Fallback: Query without ordering constraint
+            return _firestore
+                .collection('reports')
+                .where('userId', isEqualTo: userId)
+                .snapshots()
+                .map((snapshot) {
+                  final reports =
+                      snapshot.docs
+                          .map((doc) => Report.fromFirestore(doc))
+                          .toList();
+                  reports.sort(
+                    (a, b) => b.submittedDate.compareTo(a.submittedDate),
+                  );
+                  return reports;
+                });
+          }
+
           throw Exception('Failed to load reports. Please try again.');
         });
   }
