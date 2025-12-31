@@ -1,25 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:developer' as developer;
 import '../models/report_model.dart';
 import 'auth_service.dart';
 
 class ReportsService {
+  static final ReportsService _instance = ReportsService._internal();
+  static final AuthService _authService = AuthService();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final AuthService _authService = AuthService();
+
+  factory ReportsService() {
+    return _instance;
+  }
+
+  ReportsService._internal();
 
   Future<String> submitReport(Report report) async {
     try {
       final docRef = await _firestore
           .collection('reports')
           .add(report.toFirestore());
+      developer.log('Report submitted successfully: ${docRef.id}');
       return docRef.id;
     } catch (e) {
-      throw Exception('Failed to submit report: $e');
+      developer.log('Error submitting report: $e');
+      throw Exception('Failed to submit your report. Please try again.');
     }
   }
 
   Stream<List<Report>> getUserReports() {
     final userId = _authService.currentUser?.uid;
-    if (userId == null) throw Exception('User not authenticated');
+    if (userId == null) {
+      throw Exception('User not authenticated');
+    }
 
     return _firestore
         .collection('reports')
@@ -29,7 +41,11 @@ class ReportsService {
         .map(
           (snapshot) =>
               snapshot.docs.map((doc) => Report.fromFirestore(doc)).toList(),
-        );
+        )
+        .handleError((error) {
+          developer.log('Error fetching reports: $error');
+          throw Exception('Failed to load reports. Please try again.');
+        });
   }
 
   Future<Report?> getReportById(String reportId) async {
@@ -37,7 +53,8 @@ class ReportsService {
       final doc = await _firestore.collection('reports').doc(reportId).get();
       return doc.exists ? Report.fromFirestore(doc) : null;
     } catch (e) {
-      throw Exception('Failed to fetch report: $e');
+      developer.log('Error fetching report: $e');
+      throw Exception('Failed to load report details.');
     }
   }
 
@@ -49,8 +66,10 @@ class ReportsService {
       await _firestore.collection('reports').doc(reportId).update({
         'status': newStatus.name,
       });
+      developer.log('Report status updated: $reportId -> ${newStatus.name}');
     } catch (e) {
-      throw Exception('Failed to update report status: $e');
+      developer.log('Error updating status: $e');
+      throw Exception('Failed to update report status.');
     }
   }
 
@@ -65,8 +84,10 @@ class ReportsService {
         'resolution': resolution,
         'resolvedDate': Timestamp.now(),
       });
+      developer.log('Report resolved: $reportId');
     } catch (e) {
-      throw Exception('Failed to update report: $e');
+      developer.log('Error resolving report: $e');
+      throw Exception('Failed to resolve report.');
     }
   }
 
@@ -75,6 +96,9 @@ class ReportsService {
         .collection('reports')
         .doc(reportId)
         .snapshots()
-        .map((doc) => doc.exists ? Report.fromFirestore(doc) : null);
+        .map((doc) => doc.exists ? Report.fromFirestore(doc) : null)
+        .handleError((error) {
+          developer.log('Error watching report: $error');
+        });
   }
 }
