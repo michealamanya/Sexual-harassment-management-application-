@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/bottom_nav_bar.dart';
-import '../features/support_services/support_services.dart';
 import '../features/support_services/screens/support_home_screen.dart';
+import '../screens/my_reports_screen.dart';
 import 'ai_powered_chat_screen.dart';
 import 'emergency_screen.dart';
 import 'settings_screen.dart';
@@ -171,7 +171,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.folder_open,
                   Colors.blue,
                   badge: '2',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyReportsScreen(),
+                      ),
+                    );
+                  },
                 ),
                 _buildServiceCard(
                   context,
@@ -281,15 +288,31 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentNavIndex,
         onTap: (index) {
-          if (index == 3) {
+          if (index == 0) {
+            // Home - stay on home screen
+            setState(() {
+              _currentNavIndex = index;
+            });
+          } else if (index == 1) {
+            // My Reports
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MyReportsScreen()),
+            );
+          } else if (index == 2) {
+            // Support
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SupportHomeScreen(),
+              ),
+            );
+          } else if (index == 3) {
+            // Settings
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const SettingsScreen()),
             );
-          } else {
-            setState(() {
-              _currentNavIndex = index;
-            });
           }
         },
       ),
