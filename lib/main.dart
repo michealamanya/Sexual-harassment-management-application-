@@ -8,6 +8,7 @@ import 'screens/login_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/my_reports_screen.dart';
+import 'screens/report_form_screen.dart';
 import 'services/enhanced_ai_service.dart';
 import 'services/auth_service.dart';
 import 'constants/app_colors.dart';
@@ -74,6 +75,7 @@ class ReportHarassmentApp extends StatelessWidget {
           '/login': (context) => const LoginScreen(),
           '/settings': (context) => const SettingsScreen(),
           '/my_reports': (context) => const MyReportsScreen(),
+          '/report_form': (context) => const ReportFormScreen(),
         },
       ),
     );
