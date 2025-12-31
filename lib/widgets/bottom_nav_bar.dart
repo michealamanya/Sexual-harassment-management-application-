@@ -30,29 +30,15 @@ class BottomNavBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
               _buildNavItem(
-                context,
-                0,
-                Icons.home_outlined,
-                Icons.home,
-                'Home',
-              ),
-              _buildNavItem(
-                context,
                 1,
                 Icons.description_outlined,
                 Icons.description,
                 'My Reports',
               ),
+              _buildNavItem(2, Icons.help_outline, Icons.help, 'Support'),
               _buildNavItem(
-                context,
-                2,
-                Icons.help_outline,
-                Icons.help,
-                'Support',
-              ),
-              _buildNavItem(
-                context,
                 3,
                 Icons.settings_outlined,
                 Icons.settings,
@@ -66,7 +52,6 @@ class BottomNavBar extends StatelessWidget {
   }
 
   Widget _buildNavItem(
-    BuildContext context,
     int index,
     IconData icon,
     IconData activeIcon,
