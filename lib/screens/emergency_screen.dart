@@ -57,10 +57,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
   ];
 
   Future<void> _makePhoneCall(String phoneNumber) async {
-    final Uri launchUri = Uri(
-      scheme: 'tel',
-      path: phoneNumber,
-    );
+    final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
     try {
       if (await canLaunchUrl(launchUri)) {
         await launchUrl(launchUri);
@@ -99,14 +96,13 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
 
   void _showErrorSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-      ),
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
     );
   }
 
   void _activatePanicMode() {
+    if (_isEmergencyMode) return; // Prevent multiple activations
+
     setState(() {
       _isEmergencyMode = true;
     });
@@ -114,42 +110,46 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Row(
-          children: [
-            Icon(Icons.warning, color: Colors.red, size: 28),
-            SizedBox(width: 8),
-            Text('Emergency Alert'),
-          ],
-        ),
-        content: const Text(
-          'Emergency mode activated!\n\nYour location will be shared with campus security and emergency contacts will be notified.\n\nDo you want to call Campus Security now?',
-          style: TextStyle(fontSize: 15),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _makePhoneCall(_emergencyContacts[0].number);
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      builder:
+          (context) => AlertDialog(
+            title: const Row(
+              children: [
+                Icon(Icons.warning, color: Colors.red, size: 28),
+                SizedBox(width: 8),
+                Text('Emergency Alert'),
+              ],
             ),
-            child: const Text('CALL SECURITY NOW'),
+            content: const Text(
+              'Emergency mode activated!\n\nYour location will be shared with campus security and emergency contacts will be notified.\n\nDo you want to call Campus Security now?',
+              style: TextStyle(fontSize: 15),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _makePhoneCall(_emergencyContacts[0].number);
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
+                ),
+                child: const Text('CALL SECURITY NOW'),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _isEmergencyMode = false;
+                  });
+                  Navigator.pop(context);
+                },
+                child: const Text('CANCEL'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                _isEmergencyMode = false;
-              });
-              Navigator.pop(context);
-            },
-            child: const Text('CANCEL'),
-          ),
-        ],
-      ),
     );
   }
 
@@ -196,11 +196,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
               ),
               child: Column(
                 children: [
-                  const Icon(
-                    Icons.emergency,
-                    size: 60,
-                    color: Colors.white,
-                  ),
+                  const Icon(Icons.emergency, size: 60, color: Colors.white),
                   const SizedBox(height: 12),
                   const Text(
                     'Need Help?',
@@ -213,10 +209,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
                   const SizedBox(height: 8),
                   const Text(
                     'Tap any button below for immediate assistance',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white70,
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.white70),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
@@ -224,9 +217,9 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 20),
-            
+
             // Quick Dial Section
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -241,11 +234,11 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            
+
             _buildQuickDialGrid(),
-            
+
             const SizedBox(height: 24),
-            
+
             // Emergency Contacts List
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -260,14 +253,14 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            
+
             _buildEmergencyContactsList(),
-            
+
             const SizedBox(height: 24),
-            
+
             // Safety Tips
             _buildSafetyTips(),
-            
+
             const SizedBox(height: 16),
           ],
         ),
@@ -303,11 +296,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.crisis_alert,
-              size: 50,
-              color: Colors.red.shade700,
-            ),
+            Icon(Icons.crisis_alert, size: 50, color: Colors.red.shade700),
             const SizedBox(height: 8),
             Text(
               'PANIC',
@@ -325,18 +314,19 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
 
   Widget _buildQuickDialGrid() {
     final quickDialContacts = _emergencyContacts.take(3).toList();
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
-        children: quickDialContacts.map((contact) {
-          return Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: _buildQuickDialButton(contact),
-            ),
-          );
-        }).toList(),
+        children:
+            quickDialContacts.map((contact) {
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: _buildQuickDialButton(contact),
+                ),
+              );
+            }).toList(),
       ),
     );
   }
@@ -367,28 +357,18 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
                 color: contact.color.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                contact.icon,
-                color: contact.color,
-                size: 32,
-              ),
+              child: Icon(contact.icon, color: contact.color, size: 32),
             ),
             const SizedBox(height: 12),
             Text(
               contact.type,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 4),
             Text(
               contact.number,
-              style: TextStyle(
-                fontSize: 10,
-                color: Colors.grey.shade600,
-              ),
+              style: TextStyle(fontSize: 10, color: Colors.grey.shade600),
               textAlign: TextAlign.center,
             ),
           ],
@@ -415,14 +395,15 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: _emergencyContacts.length,
-        separatorBuilder: (context, index) => Divider(
-          height: 1,
-          color: Colors.grey.shade200,
-        ),
+        separatorBuilder:
+            (context, index) => Divider(height: 1, color: Colors.grey.shade200),
         itemBuilder: (context, index) {
           final contact = _emergencyContacts[index];
           return ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 8,
+            ),
             leading: Container(
               width: 48,
               height: 48,
@@ -434,19 +415,13 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
             ),
             title: Text(
               contact.name,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
             ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 4),
-                Text(
-                  contact.description,
-                  style: const TextStyle(fontSize: 12),
-                ),
+                Text(contact.description, style: const TextStyle(fontSize: 12)),
                 const SizedBox(height: 4),
                 Text(
                   contact.number,
@@ -468,10 +443,11 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.message, color: Colors.blue, size: 22),
-                  onPressed: () => _sendSMS(
-                    contact.number,
-                    'Emergency: I need help. This is an urgent situation at MUST Campus.',
-                  ),
+                  onPressed:
+                      () => _sendSMS(
+                        contact.number,
+                        'Emergency: I need help. This is an urgent situation at MUST Campus.',
+                      ),
                   tooltip: 'Send SMS',
                 ),
               ],
@@ -515,7 +491,9 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
           _buildSafetyTip('Share your location with trusted contacts'),
           _buildSafetyTip('Use the panic button in dangerous situations'),
           _buildSafetyTip('Stay in well-lit, populated areas when possible'),
-          _buildSafetyTip('Trust your instincts - if something feels wrong, seek help'),
+          _buildSafetyTip(
+            'Trust your instincts - if something feels wrong, seek help',
+          ),
         ],
       ),
     );
@@ -532,10 +510,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
           Expanded(
             child: Text(
               tip,
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.blue.shade700,
-              ),
+              style: TextStyle(fontSize: 13, color: Colors.blue.shade700),
             ),
           ),
         ],
@@ -547,155 +522,154 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(2),
-              ),
+      builder:
+          (context) => Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             ),
-            const SizedBox(height: 20),
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: contact.color.withValues(alpha: 0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(contact.icon, color: contact.color, size: 32),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              contact.name,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              contact.description,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade600,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              contact.number,
-              style: TextStyle(
-                fontSize: 16,
-                color: contact.color,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 24),
-            Row(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      _makePhoneCall(contact.number);
-                    },
-                    icon: const Icon(Icons.phone),
-                    label: const Text('Call Now'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(2),
                   ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      _sendSMS(
-                        contact.number,
-                        'Emergency: I need help. This is an urgent situation at MUST Campus.',
-                      );
-                    },
-                    icon: const Icon(Icons.message),
-                    label: const Text('Send SMS'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+                const SizedBox(height: 20),
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: contact.color.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(contact.icon, color: contact.color, size: 32),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  contact.name,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(height: 8),
+                Text(
+                  contact.description,
+                  style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  contact.number,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: contact.color,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          _makePhoneCall(contact.number);
+                        },
+                        icon: const Icon(Icons.phone),
+                        label: const Text('Call Now'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          _sendSMS(
+                            contact.number,
+                            'Emergency: I need help. This is an urgent situation at MUST Campus.',
+                          );
+                        },
+                        icon: const Icon(Icons.message),
+                        label: const Text('Send SMS'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
               ],
             ),
-            const SizedBox(height: 16),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
   void _showEmergencyInfo() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Emergency Services Info'),
-        content: const SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'This emergency feature provides:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Emergency Services Info'),
+            content: const SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'This emergency feature provides:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 12),
+                  Text('• Quick dial to campus security'),
+                  Text('• Direct line to police (112)'),
+                  Text('• Medical emergency services'),
+                  Text('• Gender desk support officer'),
+                  Text('• Counseling services'),
+                  SizedBox(height: 12),
+                  Text(
+                    'How to use:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                  Text('• Tap any contact to call or message'),
+                  Text('• Use PANIC button for immediate alert'),
+                  Text('• Your location can be shared automatically'),
+                  SizedBox(height: 12),
+                  Text(
+                    'Note: All emergency calls and messages are logged for your safety and security.',
+                    style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
+                  ),
+                ],
               ),
-              SizedBox(height: 12),
-              Text('• Quick dial to campus security'),
-              Text('• Direct line to police (112)'),
-              Text('• Medical emergency services'),
-              Text('• Gender desk support officer'),
-              Text('• Counseling services'),
-              SizedBox(height: 12),
-              Text(
-                'How to use:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Text('• Tap any contact to call or message'),
-              Text('• Use PANIC button for immediate alert'),
-              Text('• Your location can be shared automatically'),
-              SizedBox(height: 12),
-              Text(
-                'Note: All emergency calls and messages are logged for your safety and security.',
-                style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Got it'),
               ),
             ],
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Got it'),
-          ),
-        ],
-      ),
     );
   }
 }
