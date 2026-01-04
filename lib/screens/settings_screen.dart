@@ -688,6 +688,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _showDeleteAccountDialog() async {
     final passwordController = TextEditingController();
+    bool obscurePassword = true;
 
     // Check if user is signed in with Google
     final user = _authService.currentUser;
@@ -707,7 +708,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder:
           (dialogContext) => StatefulBuilder(
             builder: (context, setDialogState) {
-              bool obscurePassword = true;
               return AlertDialog(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
