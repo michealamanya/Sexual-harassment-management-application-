@@ -385,58 +385,6 @@ Respond with empathy in 1-2 sentences. Be supportive and trauma-informed. [/INST
     );
   }
 
-  String _postProcessResponse(String rawResponse, String userMessage) {
-    // Clean up response
-    String response = rawResponse.trim();
-
-    // Remove prompt echoes
-    final cleanupPatterns = [
-      'COUNSELOR RESPONSE:',
-      'COUNSELOR:',
-      'SUPPORT AGENT:',
-      'AI:',
-      userMessage, // Remove if AI echoed user message
-    ];
-
-    for (final pattern in cleanupPatterns) {
-      response = response.replaceAll(pattern, '').trim();
-    }
-
-    // Ensure appropriate length
-    if (response.length > 250) {
-      final sentences = response.split('. ');
-      response = sentences.take(2).join('. ');
-      if (!response.endsWith('.')) response += '.';
-    }
-
-    // Add supportive elements if missing
-    if (!_containsSupportiveLanguage(response)) {
-      response = _addSupportiveElement(response, userMessage);
-    }
-
-    return response;
-  }
-
-  bool _containsSupportiveLanguage(String response) {
-    final supportiveWords = AIConfig.qualityKeywords['supportive']!;
-    final lowerResponse = response.toLowerCase();
-
-    return supportiveWords.any((word) => lowerResponse.contains(word));
-  }
-
-  String _addSupportiveElement(String response, String userMessage) {
-    final lowerMessage = userMessage.toLowerCase();
-
-    if (lowerMessage.contains('scared') || lowerMessage.contains('afraid')) {
-      return "$response I want you to know that you're safe here and your feelings are completely valid.";
-    } else if (lowerMessage.contains('fault') ||
-        lowerMessage.contains('blame')) {
-      return "$response Please remember that this is not your fault.";
-    } else {
-      return "$response I'm here to support you through this.";
-    }
-  }
-
   Future<void> _handleCrisisResponse() async {
     // Immediate crisis response
     final crisisMessage = ChatMessage(
