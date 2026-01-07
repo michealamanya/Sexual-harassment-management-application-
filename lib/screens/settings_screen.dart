@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_styles.dart';
-import '../widgets/bottom_nav_bar.dart';
 import '../widgets/settings_tile.dart';
 import '../services/auth_service.dart';
-import 'home_screen.dart';
 import 'profile_screen.dart';
 import 'login_screen.dart';
-import 'my_reports_screen.dart';
-import '../features/support_services/screens/support_home_screen.dart';import 'my_reports_screen.dart';
-import '../features/support_services/screens/support_home_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -20,7 +15,6 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = true;
-  int _currentNavIndex = 3;
   final _authService = AuthService();
   Map<String, dynamic>? _userData;
   bool _isLoading = true;
@@ -62,30 +56,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
-        elevation: 0,
-        title: Text('Settings', style: AppStyles.heading2),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.textDark,
-                shape: BoxShape.circle,
-                border: Border.all(color: AppColors.success, width: 2),
-              ),
-              child: Center(
-                child: Icon(Icons.person, color: AppColors.white, size: 20),
-              ),
-            ),
-          ),
-        ],
+        title: const Text('Settings'),
+        backgroundColor: Colors.white,
+        elevation: 1,
+        foregroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -109,37 +87,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 16),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: _currentNavIndex,
-        onTap: (index) {
-          if (index == 0) {
-            // Home
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          } else if (index == 1) {
-            // My Reports
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const MyReportsScreen()),
-            );
-          } else if (index == 2) {
-            // Support
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const SupportHomeScreen(),
-              ),
-            );
-          } else if (index == 3) {
-            // Settings - stay here
-            setState(() {
-              _currentNavIndex = index;
-            });
-          }
-        },
       ),
     );
   }
@@ -462,90 +409,88 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     final result = await showDialog<String?>(
       context: context,
-      builder:
-          (dialogContext) => PopScope(
-            canPop: true,
-            child: AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              title: Row(
-                children: [
-                  Icon(Icons.lock_reset, color: AppColors.primary, size: 28),
-                  const SizedBox(width: 12),
-                  const Text('Reset Password'),
-                ],
-              ),
-              content: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Enter your email address and we\'ll send you a link to reset your password.',
-                      style: TextStyle(fontSize: 14, height: 1.5),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        labelText: 'Email Address',
-                        prefixIcon: const Icon(Icons.email_outlined),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        hintText: 'your.email@gmail.com',
-                      ),
-                    ),
-                  ],
+      builder: (dialogContext) => PopScope(
+        canPop: true,
+        child: AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Icon(Icons.lock_reset, color: AppColors.primary, size: 28),
+              const SizedBox(width: 12),
+              const Text('Reset Password'),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Enter your email address and we\'ll send you a link to reset your password.',
+                  style: TextStyle(fontSize: 14, height: 1.5),
                 ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(dialogContext, null),
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    final email = emailController.text.trim();
-
-                    if (email.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please enter your email address'),
-                          backgroundColor: Colors.orange,
-                        ),
-                      );
-                      return;
-                    }
-
-                    Navigator.pop(dialogContext, email);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
+                const SizedBox(height: 16),
+                TextField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: 'Email Address',
+                    prefixIcon: const Icon(Icons.email_outlined),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    hintText: 'your.email@gmail.com',
                   ),
-                  child: const Text('Send Reset Link'),
                 ),
               ],
             ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, null),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final email = emailController.text.trim();
+
+                if (email.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please enter your email address'),
+                      backgroundColor: Colors.orange,
+                    ),
+                  );
+                  return;
+                }
+
+                Navigator.pop(dialogContext, email);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Send Reset Link'),
+            ),
+          ],
+        ),
+      ),
     );
 
-    // Dispose controller now that dialog is closed
-    emailController.dispose();
-
+    // Only dispose after dialog is completely closed
     if (result != null && mounted) {
       // Show loading
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder:
-            (context) => PopScope(
-              canPop: false,
-              child: const Center(child: CircularProgressIndicator()),
-            ),
+        builder: (context) => PopScope(
+          canPop: false,
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
       );
 
       try {
@@ -557,88 +502,83 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Show success dialog
           showDialog(
             context: context,
-            builder:
-                (context) => AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+            builder: (context) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: Row(
+                children: [
+                  Icon(Icons.check_circle, color: Colors.green, size: 28),
+                  const SizedBox(width: 12),
+                  const Text('Email Sent!'),
+                ],
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Password reset link has been sent to:',
+                    style: TextStyle(fontSize: 14),
                   ),
-                  title: Row(
-                    children: [
-                      Icon(Icons.check_circle, color: Colors.green, size: 28),
-                      const SizedBox(width: 12),
-                      const Text('Email Sent!'),
-                    ],
+                  const SizedBox(height: 8),
+                  Text(
+                    result,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
                   ),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Password reset link has been sent to:',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        result,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade50,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.blue.shade200),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.blue.shade200),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.info_outline,
-                                  size: 16,
-                                  color: Colors.blue.shade700,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  'Important:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13,
-                                    color: Colors.blue.shade900,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
+                            Icon(Icons.info_outline,
+                                size: 16, color: Colors.blue.shade700),
+                            const SizedBox(width: 8),
                             Text(
-                              '• Check your inbox in 2-5 minutes\n'
-                              '• Look in spam/junk folder if not found\n'
-                              '• Link expires in 1 hour\n'
-                              '• Make sure you registered with this email',
+                              'Important:',
                               style: TextStyle(
-                                fontSize: 12,
-                                height: 1.6,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
                                 color: Colors.blue.shade900,
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('OK'),
+                        const SizedBox(height: 8),
+                        Text(
+                          '• Check your inbox in 2-5 minutes\n'
+                          '• Look in spam/junk folder if not found\n'
+                          '• Link expires in 1 hour\n'
+                          '• Make sure you registered with this email',
+                          style: TextStyle(
+                              fontSize: 12,
+                              height: 1.6,
+                              color: Colors.blue.shade900),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
                 ),
+              ],
+            ),
           );
         }
       } catch (e) {
@@ -648,36 +588,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Show error dialog
           showDialog(
             context: context,
-            builder:
-                (context) => AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  title: Row(
-                    children: [
-                      Icon(Icons.error_outline, color: Colors.red, size: 28),
-                      const SizedBox(width: 12),
-                      const Text('Error'),
-                    ],
-                  ),
-                  content: Text(e.toString()),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('OK'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        _showChangePasswordDialog(); // Retry
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                      ),
-                      child: const Text('Retry'),
-                    ),
-                  ],
+            builder: (context) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: Row(
+                children: [
+                  Icon(Icons.error_outline, color: Colors.red, size: 28),
+                  const SizedBox(width: 12),
+                  const Text('Error'),
+                ],
+              ),
+              content: Text(e.toString()),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
                 ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _showChangePasswordDialog(); // Retry
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                  ),
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
           );
         }
       }
@@ -706,125 +645,123 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     final result = await showDialog<String?>(
       context: context,
-      builder:
-          (dialogContext) => StatefulBuilder(
-            builder: (context, setDialogState) {
-              return AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            title: Row(
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  color: Colors.red[600],
+                  size: 28,
                 ),
-                title: Row(
-                  children: [
-                    Icon(
-                      Icons.warning_amber_rounded,
-                      color: Colors.red[600],
-                      size: 28,
+                const SizedBox(width: 12),
+                const Text('Delete Account'),
+              ],
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'This action cannot be undone!',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
                     ),
-                    const SizedBox(width: 12),
-                    const Text('Delete Account'),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Deleting your account will permanently remove:',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    '• Your profile information\n'
+                    '• All your reports\n'
+                    '• Your chat history\n'
+                    '• All associated data',
+                    style: TextStyle(fontSize: 13, height: 1.6),
+                  ),
+                  const SizedBox(height: 16),
+                  if (!isGoogleSignIn) ...[
+                    const Text(
+                      'Enter your password to confirm:',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: passwordController,
+                      obscureText: obscurePassword,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            obscurePassword
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                          ),
+                          onPressed: () => setDialogState(
+                            () => obscurePassword = !obscurePassword,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ] else ...[
+                    const Text(
+                      'You will be asked to sign in with Google to confirm deletion.',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
-                ),
-                content: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'This action cannot be undone!',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        'Deleting your account will permanently remove:',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        '• Your profile information\n'
-                        '• All your reports\n'
-                        '• Your chat history\n'
-                        '• All associated data',
-                        style: TextStyle(fontSize: 13, height: 1.6),
-                      ),
-                      const SizedBox(height: 16),
-                      if (!isGoogleSignIn) ...[
-                        const Text(
-                          'Enter your password to confirm:',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        TextField(
-                          controller: passwordController,
-                          obscureText: obscurePassword,
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            prefixIcon: const Icon(Icons.lock_outline),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                obscurePassword
-                                    ? Icons.visibility_outlined
-                                    : Icons.visibility_off_outlined,
-                              ),
-                              onPressed:
-                                  () => setDialogState(
-                                    () => obscurePassword = !obscurePassword,
-                                  ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
-                      ] else ...[
-                        const Text(
-                          'You will be asked to sign in with Google to confirm deletion.',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(dialogContext, null),
-                    child: const Text('Cancel'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (!isGoogleSignIn && passwordController.text.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please enter your password'),
-                            backgroundColor: Colors.orange,
-                          ),
-                        );
-                        return;
-                      }
-                      Navigator.pop(
-                        dialogContext,
-                        isGoogleSignIn ? 'google' : passwordController.text,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red[600],
-                      foregroundColor: Colors.white,
-                    ),
-                    child: const Text('Delete Account'),
-                  ),
                 ],
-              );
-            },
-          ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, null),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (!isGoogleSignIn && passwordController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please enter your password'),
+                        backgroundColor: Colors.orange,
+                      ),
+                    );
+                    return;
+                  }
+                  Navigator.pop(
+                    dialogContext,
+                    isGoogleSignIn ? 'google' : passwordController.text,
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red[600],
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Delete Account'),
+              ),
+            ],
+          );
+        },
+      ),
     );
 
     // Dispose controller after dialog is closed
@@ -835,11 +772,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder:
-            (context) => PopScope(
-              canPop: false,
-              child: const Center(child: CircularProgressIndicator()),
-            ),
+        builder: (context) => PopScope(
+          canPop: false,
+          child: const Center(child: CircularProgressIndicator()),
+        ),
       );
 
       try {
@@ -869,26 +805,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Navigator.pop(context); // Close loading
           showDialog(
             context: context,
-            builder:
-                (context) => AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  title: const Row(
-                    children: [
-                      Icon(Icons.error_outline, color: Colors.red, size: 28),
-                      SizedBox(width: 12),
-                      Text('Error'),
-                    ],
-                  ),
-                  content: Text(e.toString()),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('OK'),
-                    ),
-                  ],
+            builder: (context) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: const Row(
+                children: [
+                  Icon(Icons.error_outline, color: Colors.red, size: 28),
+                  SizedBox(width: 12),
+                  Text('Error'),
+                ],
+              ),
+              content: Text(e.toString()),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
                 ),
+              ],
+            ),
           );
         }
       }

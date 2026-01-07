@@ -21,7 +21,7 @@ class CounselingService {
     required this.serviceType,
     this.isAvailable24Hours = false,
     this.isConfidential = true,
-    this.isFree = false,
+    this.isFree = false, required List<String> specializations,
   });
 
   factory CounselingService.fromJson(Map<String, dynamic> json) {
@@ -38,7 +38,7 @@ class CounselingService {
       ),
       isAvailable24Hours: json['is_available_24_hours'] as bool? ?? false,
       isConfidential: json['is_confidential'] as bool? ?? true,
-      isFree: json['is_free'] as bool? ?? false,
+      isFree: json['is_free'] as bool? ?? false, specializations: [],
     );
   }
 
@@ -65,5 +65,5 @@ enum ServiceType {
   crisis,
   groupTherapy,
   online,
-  inPerson,
+  inPerson, counseling,
 }

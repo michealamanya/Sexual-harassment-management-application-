@@ -18,6 +18,26 @@ class _LegalGuidanceScreenState extends State<LegalGuidanceScreen> {
   bool _isLoading = true;
   String? _error;
 
+  // Additional legal resources to display
+  final List<LegalResource> _additionalResources = [
+    LegalResource(
+      id: 'campus_legal',
+      title: 'Campus Legal Aid Center',
+      description:
+          'Free legal guidance and support for students. Confidential consultations available.',
+      resourceType: LegalResourceType.legalAidOrganization,
+      contactNumber: '+256704470116',
+      providesFreeConsultation: true,
+      servicesOffered: [
+        'Free legal consultations',
+        'Rights education and awareness',
+        'Legal documentation assistance',
+        'Referrals to qualified attorneys',
+        'Confidential support',
+      ],
+    ),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -27,13 +47,18 @@ class _LegalGuidanceScreenState extends State<LegalGuidanceScreen> {
   Future<void> _loadResources() async {
     try {
       final resources = await _supportService.getLegalResources();
+      // Combine with additional resources
+      final allResources = [...resources, ..._additionalResources];
+
       setState(() {
-        _resources = resources;
+        _resources = allResources;
         _isLoading = false;
       });
     } catch (e) {
       setState(() {
-        _error = 'Unable to load resources. Please try again.';
+        _resources = _additionalResources;
+        _error =
+            'Some resources may not have loaded. Showing available resources.';
         _isLoading = false;
       });
     }
@@ -42,7 +67,10 @@ class _LegalGuidanceScreenState extends State<LegalGuidanceScreen> {
   void _showLaunchError(String message) {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ),
     );
   }
 
@@ -52,13 +80,14 @@ class _LegalGuidanceScreenState extends State<LegalGuidanceScreen> {
       if (await canLaunchUrl(phoneUri)) {
         final bool launched = await launchUrl(phoneUri);
         if (!launched) {
-          _showLaunchError('Unable to start phone call. Please try again later.');
+          _showLaunchError(
+              'Unable to start phone call. Please try again later.');
         }
       } else {
         _showLaunchError('Unable to start phone call. Please try again later.');
       }
-    } catch (_) {
-      _showLaunchError('Unable to start phone call. Please try again later.');
+    } catch (e) {
+      _showLaunchError('Error: $e');
     }
   }
 
@@ -76,8 +105,8 @@ class _LegalGuidanceScreenState extends State<LegalGuidanceScreen> {
       } else {
         _showLaunchError('Unable to open website. Please try again later.');
       }
-    } catch (_) {
-      _showLaunchError('Unable to open website. Please try again later.');
+    } catch (e) {
+      _showLaunchError('Error: $e');
     }
   }
 
@@ -103,7 +132,7 @@ class _LegalGuidanceScreenState extends State<LegalGuidanceScreen> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (_error != null) {
+    if (_error != null && _resources.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +158,7 @@ class _LegalGuidanceScreenState extends State<LegalGuidanceScreen> {
           // Header info
           _buildInfoHeader(),
           const SizedBox(height: 16),
-          
+
           // Resources list
           ..._resources.map((resource) => _buildResourceCard(resource)),
         ],
@@ -182,13 +211,14 @@ class _LegalGuidanceScreenState extends State<LegalGuidanceScreen> {
         color: Colors.indigo,
       ),
     ];
-    
+
     if (resource.providesFreeConsultation) {
-      tags.add(const ServiceTag(label: 'Free Consultation', color: Colors.green));
+      tags.add(
+          const ServiceTag(label: 'Free Consultation', color: Colors.green));
     }
 
     final actions = <SupportCardAction>[];
-    
+
     if (resource.contactNumber != null) {
       actions.add(SupportCardAction(
         label: 'Call',
@@ -197,7 +227,7 @@ class _LegalGuidanceScreenState extends State<LegalGuidanceScreen> {
         color: Colors.green,
       ));
     }
-    
+
     if (resource.website != null) {
       actions.add(SupportCardAction(
         label: 'Learn More',
@@ -279,7 +309,7 @@ class _LegalGuidanceScreenState extends State<LegalGuidanceScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Row(
                       children: [
-                        Icon(Icons.check_circle, 
+                        Icon(Icons.check_circle,
                             color: Colors.green.shade400, size: 20),
                         const SizedBox(width: 8),
                         Expanded(child: Text(service)),

@@ -1,7 +1,7 @@
 name: sexual_harassment_management_app
 description: A secure, confidential, and accessible digital platform for reporting and managing sexual harassment cases.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -20,10 +20,7 @@ dependencies:
   
   # Networking
   http: ^1.1.0
-
-  # Add url_launcher for making phone calls and sending SMS
   url_launcher: ^6.2.2
-  url_launcher: ^6.2.1
   
   # Utils
   intl: ^0.18.1
@@ -32,12 +29,15 @@ dependencies:
   # WebSocket for real-time chat
   web_socket_channel: ^2.4.0
   
-  # Push Notifications
+  # Firebase
   firebase_core: ^2.24.2
   firebase_messaging: ^14.7.9
-  
-  # Video Calling (optional)
-  agora_rtc_engine: ^6.3.0
+  cloud_firestore: ^4.13.0
+  firebase_auth: ^4.15.0
+  google_sign_in: ^6.2.0
+
+  # Environment variables
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -50,20 +50,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   
-  # Assets
   assets:
-    - assets/images/
-    - assets/icons/
-    - assets/sounds/
-  
-  # Fonts
-  fonts:
-    - family: Inter
-      fonts:
-        - asset: assets/fonts/Inter-Regular.ttf
-        - asset: assets/fonts/Inter-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Inter-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Inter-Bold.ttf
-          weight: 700
+    - .env

@@ -28,13 +28,29 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _loadReportCount() async {
-    _reportsService.getUserReports().listen((reports) {
+    try {
+      _reportsService.getUserReports().listen((reports) {
+        if (mounted) {
+          setState(() {
+            _reportCount = reports.length;
+          });
+        }
+      }, onError: (error) {
+        // Silently handle error - user might not be authenticated
+        if (mounted) {
+          setState(() {
+            _reportCount = 0;
+          });
+        }
+      });
+    } catch (e) {
+      // User not authenticated yet
       if (mounted) {
         setState(() {
-          _reportCount = reports.length;
+          _reportCount = 0;
         });
       }
-    });
+    }
   }
 
   @override

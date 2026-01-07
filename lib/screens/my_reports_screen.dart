@@ -44,16 +44,18 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.lock_outline, size: 48, color: AppColors.textGray),
+              const Icon(Icons.lock_outline, size: 48, color: AppColors.textGray),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 'Please log in to view your reports',
                 style: AppStyles.bodyMedium,
               ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Go Back'),
+                //go to login screen
+                onPressed: () => Navigator.pushNamed(context, '/login'),
+                child: const Text('Go to Login'),
+
               ),
             ],
           ),

@@ -18,6 +18,27 @@ class _CounselingScreenState extends State<CounselingScreen> {
   bool _isLoading = true;
   String? _error;
 
+  // Additional counseling services to display
+  final List<CounselingService> _additionalServices = [
+    const CounselingService(
+      id: 'campus_counseling',
+      name: 'Campus Counseling Center',
+      description:
+          'Professional counseling and psychological support for students. Trained counselors available for individual and group sessions.',
+      contactNumber: '+256740470116',
+      isAvailable24Hours: false,
+      isFree: true,
+      isConfidential: true,
+      specializations: [
+        'Trauma and PTSD',
+        'Crisis support',
+        'Anxiety and depression',
+        'Coping strategies',
+        'Crisis intervention',
+      ], serviceType: ServiceType.counseling,
+    ),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -27,13 +48,18 @@ class _CounselingScreenState extends State<CounselingScreen> {
   Future<void> _loadServices() async {
     try {
       final services = await _supportService.getCounselingServices();
+      // Combine with additional services
+      final allServices = [...services, ..._additionalServices];
+
       setState(() {
-        _services = services;
+        _services = allServices;
         _isLoading = false;
       });
     } catch (e) {
       setState(() {
-        _error = 'Unable to load services. Please try again.';
+        _services = _additionalServices;
+        _error =
+            'Some services may not have loaded. Showing available services.';
         _isLoading = false;
       });
     }
@@ -42,7 +68,10 @@ class _CounselingScreenState extends State<CounselingScreen> {
   void _showLaunchError(String message) {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ),
     );
   }
 
@@ -57,8 +86,8 @@ class _CounselingScreenState extends State<CounselingScreen> {
       } else {
         _showLaunchError('Calling is not supported on this device.');
       }
-    } catch (_) {
-      _showLaunchError('An error occurred while trying to place the call.');
+    } catch (e) {
+      _showLaunchError('Error: $e');
     }
   }
 
@@ -71,13 +100,14 @@ class _CounselingScreenState extends State<CounselingScreen> {
           mode: LaunchMode.externalApplication,
         );
         if (!launched) {
-          _showLaunchError('Unable to open the website. Please try again later.');
+          _showLaunchError(
+              'Unable to open the website. Please try again later.');
         }
       } else {
         _showLaunchError('Unable to open this link on your device.');
       }
-    } catch (_) {
-      _showLaunchError('An error occurred while trying to open the website.');
+    } catch (e) {
+      _showLaunchError('Error: $e');
     }
   }
 
@@ -103,7 +133,7 @@ class _CounselingScreenState extends State<CounselingScreen> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (_error != null) {
+    if (_error != null && _services.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +159,7 @@ class _CounselingScreenState extends State<CounselingScreen> {
           // Header info
           _buildInfoHeader(),
           const SizedBox(height: 16),
-          
+
           // Service list
           ..._services.map((service) => _buildServiceCard(service)),
         ],
@@ -165,7 +195,7 @@ class _CounselingScreenState extends State<CounselingScreen> {
 
   Widget _buildServiceCard(CounselingService service) {
     final tags = <Widget>[];
-    
+
     if (service.isAvailable24Hours) {
       tags.add(const ServiceTag(label: '24/7', color: Colors.green));
     }
@@ -177,7 +207,7 @@ class _CounselingScreenState extends State<CounselingScreen> {
     }
 
     final actions = <SupportCardAction>[];
-    
+
     if (service.contactNumber != 'N/A') {
       actions.add(SupportCardAction(
         label: 'Call',
@@ -186,7 +216,7 @@ class _CounselingScreenState extends State<CounselingScreen> {
         color: Colors.green,
       ));
     }
-    
+
     if (service.website != null) {
       actions.add(SupportCardAction(
         label: 'Website',

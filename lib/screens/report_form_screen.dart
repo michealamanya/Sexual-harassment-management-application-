@@ -22,10 +22,19 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
   late TextEditingController _categoryController;
   late TextEditingController _respondentNameController;
   late TextEditingController _locationController;
+  late TextEditingController _dateController;
 
-  bool _isAnonymous = false;
+  String _selectedCategory = 'Harassment';
+  bool _isAnonymous = true;
   bool _isSubmitting = false;
   DateTime? _incidentDate;
+
+  final List<String> _categories = [
+    'Harassment',
+    'Assault',
+    'Discrimination',
+    'Other',
+  ];
 
   @override
   void initState() {
@@ -35,6 +44,7 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
     _categoryController = TextEditingController();
     _respondentNameController = TextEditingController();
     _locationController = TextEditingController();
+    _dateController = TextEditingController();
   }
 
   @override
@@ -44,6 +54,7 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
     _categoryController.dispose();
     _respondentNameController.dispose();
     _locationController.dispose();
+    _dateController.dispose();
     super.dispose();
   }
 
@@ -57,6 +68,7 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
     if (picked != null && picked != _incidentDate) {
       setState(() {
         _incidentDate = picked;
+        _dateController.text = '${picked.day}/${picked.month}/${picked.year}';
       });
     }
   }
@@ -93,14 +105,12 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
         submittedDate: DateTime.now(),
         status: ReportStatus.pending,
         isAnonymous: _isAnonymous,
-        respondentName:
-            _respondentNameController.text.trim().isEmpty
-                ? null
-                : _respondentNameController.text.trim(),
-        location:
-            _locationController.text.trim().isEmpty
-                ? null
-                : _locationController.text.trim(),
+        respondentName: _respondentNameController.text.trim().isEmpty
+            ? null
+            : _respondentNameController.text.trim(),
+        location: _locationController.text.trim().isEmpty
+            ? null
+            : _locationController.text.trim(),
         incidentDate: _incidentDate,
       );
 
@@ -120,6 +130,7 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
         _categoryController.clear();
         _respondentNameController.clear();
         _locationController.clear();
+        _dateController.clear();
         setState(() {
           _isAnonymous = false;
           _incidentDate = null;
@@ -220,17 +231,46 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
 
               // Category
               _buildLabel('Category *'),
-              TextFormField(
-                controller: _categoryController,
+              DropdownButtonFormField<String>(
+                value: _selectedCategory,
                 decoration: InputDecoration(
-                  hintText: 'e.g., Harassment, Discrimination, Abuse',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
+                items: _categories.map((category) {
+                  return DropdownMenuItem(
+                    value: category,
+                    child: Text(category),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() => _selectedCategory = value ?? 'Harassment');
+                },
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a category';
+                    return 'Please select a category';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+
+              // Date of Incident
+              _buildLabel('Date of Incident'),
+              TextFormField(
+                controller: _dateController,
+                decoration: InputDecoration(
+                  hintText: 'Select date',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  suffixIcon: const Icon(Icons.calendar_today),
+                ),
+                onTap: _selectIncidentDate,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please select a date';
                   }
                   return null;
                 },
@@ -257,39 +297,6 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
                   }
                   return null;
                 },
-              ),
-              const SizedBox(height: 16),
-
-              // Incident Date
-              _buildLabel('Date of Incident'),
-              InkWell(
-                onTap: _selectIncidentDate,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 14,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.borderLight),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        _incidentDate == null
-                            ? 'Select date'
-                            : '${_incidentDate!.day}/${_incidentDate!.month}/${_incidentDate!.year}',
-                        style: AppStyles.bodySmall,
-                      ),
-                      Icon(
-                        Icons.calendar_today,
-                        color: AppColors.textGray,
-                        size: 18,
-                      ),
-                    ],
-                  ),
-                ),
               ),
               const SizedBox(height: 16),
 
@@ -333,7 +340,7 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
                       value: _isAnonymous,
                       onChanged: (value) {
                         setState(() {
-                          _isAnonymous = value ?? false;
+                          _isAnonymous = value ?? true;
                         });
                       },
                       activeColor: AppColors.primaryBlue,
@@ -375,25 +382,24 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     disabledBackgroundColor: AppColors.disabled,
                   ),
-                  child:
-                      _isSubmitting
-                          ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white,
-                              ),
-                            ),
-                          )
-                          : Text(
-                            'Submit Report',
-                            style: AppStyles.bodyMedium.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                  child: _isSubmitting
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
                             ),
                           ),
+                        )
+                      : Text(
+                          'Submit Report',
+                          style: AppStyles.bodyMedium.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
               ),
               const SizedBox(height: 16),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:report_harassment/constants/app_colors.dart';
-import 'package:report_harassment/services/auth_service.dart';
-import 'package:report_harassment/widgets/custom_text_field.dart';
+import 'package:sexual_harassment_management_app/constants/app_colors.dart';
+import 'package:sexual_harassment_management_app/services/auth_service.dart';
+import 'package:sexual_harassment_management_app/widgets/custom_text_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,7 +17,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _fullNameController = TextEditingController();
   final _studentIdController = TextEditingController();
   final _emailController = TextEditingController();
-  final _facultyController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -40,7 +39,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _fullNameController.dispose();
     _studentIdController.dispose();
     _emailController.dispose();
-    _facultyController.dispose();
     _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -57,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: _passwordController.text,
         fullName: _fullNameController.text.trim(),
         studentId: _studentIdController.text.trim(),
-        department: _selectedFaculty ?? _facultyController.text.trim(),
+        department: _selectedFaculty ?? '',
         phoneNumber: _phoneController.text.trim(),
       );
 
@@ -65,10 +63,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-              'Account created successfully! Please login to continue.',
+              'Account created successfully! Redirecting to login...',
             ),
             backgroundColor: Colors.green,
-            duration: Duration(seconds: 3),
+            duration: Duration(seconds: 2),
           ),
         );
 
@@ -76,16 +74,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
         await _authService.signOut();
 
         // Navigate back to login screen
-        Navigator.of(context).pop();
+        if (mounted) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            '/login',
+            (route) => false,
+          );
+        }
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('Registration failed: ${e.toString()}'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 4),
+          ),
         );
       }
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -211,18 +220,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     filled: true,
                     fillColor: Colors.white,
                   ),
-                  items:
-                      _faculties.map((faculty) {
-                        return DropdownMenuItem(
-                          value: faculty,
-                          child: Text(
-                            faculty,
-                            style: const TextStyle(fontSize: 14),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                        );
-                      }).toList(),
+                  items: _faculties.map((faculty) {
+                    return DropdownMenuItem(
+                      value: faculty,
+                      child: Text(
+                        faculty,
+                        style: const TextStyle(fontSize: 14),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                    );
+                  }).toList(),
                   onChanged: (value) {
                     setState(() => _selectedFaculty = value);
                   },
@@ -267,10 +275,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           : Icons.visibility_off_outlined,
                       color: AppColors.textSecondary,
                     ),
-                    onPressed:
-                        () => setState(
-                          () => _obscurePassword = !_obscurePassword,
-                        ),
+                    onPressed: () => setState(
+                      () => _obscurePassword = !_obscurePassword,
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -306,25 +313,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       elevation: 0,
                     ),
-                    child:
-                        _isLoading
-                            ? const SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white,
-                                ),
-                              ),
-                            )
-                            : const Text(
-                              'Create Account',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                    child: _isLoading
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
                               ),
                             ),
+                          )
+                        : const Text(
+                            'Create Account',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ),
                 ),
 

@@ -56,4 +56,12 @@ class AppColors {
   static const Color divider = Color(0xFFBDBDBD);
   static const Color disabled = Color(0xFF9E9E9E);
   static const Color danger = Color(0xFFDC3545);
+
+  // New color constants
+  static const Color primaryLight = Color(0xFF5a5cb8);
+  static const Color secondaryLight = Color(0xFFFF9898);
+  static const Color info = Color(0xFF0066CC);
+  static const Color textTertiary = Color(0xFF999999);
+  static const Color shadow = Color(0x1A000000);
+  static const Color disabledText = Color(0xFF999999);
 }
