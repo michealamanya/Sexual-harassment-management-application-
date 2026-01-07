@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:report_harassment/constants/app_colors.dart';
-import 'package:report_harassment/services/auth_service.dart';
-import 'package:report_harassment/widgets/custom_text_field.dart';
-import 'package:report_harassment/screens/register_screen.dart';
-import 'package:report_harassment/screens/home_screen.dart';
+import '../constants/app_colors.dart';
+import '../services/auth_service.dart';
+import '../widgets/custom_text_field.dart';
+import 'register_screen.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,10 +15,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _authService = AuthService();
-  
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  
+
   bool _isLoading = false;
   bool _obscurePassword = true;
 
@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final TextEditingController emailController = TextEditingController(
           text: _emailController.text.trim(),
         );
-        
+
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // Show loading
     if (!mounted) return;
-    
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -192,10 +192,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       await _authService.resetPassword(email);
-      
+
       if (!mounted) return;
       Navigator.pop(context); // Close loading
-      
+
       // Show success dialog
       await showDialog(
         context: context,
@@ -251,7 +251,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.info_outline, size: 16, color: Colors.blue[700]),
+                        Icon(Icons.info_outline,
+                            size: 16, color: Colors.blue[700]),
                         const SizedBox(width: 8),
                         Text(
                           'Important:',
@@ -302,7 +303,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       if (!mounted) return;
       Navigator.pop(context); // Close loading
-      
+
       // Show error dialog
       await showDialog(
         context: context,
@@ -405,16 +406,16 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 20),
-                
+
                 // Logo or App Icon
                 Icon(
                   Icons.shield_outlined,
                   size: 80,
                   color: AppColors.primary,
                 ),
-                
+
                 const SizedBox(height: 24),
-                
+
                 // Title
                 Text(
                   'Welcome Back',
@@ -425,9 +426,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                
+
                 const SizedBox(height: 8),
-                
+
                 Text(
                   'Sign in to continue',
                   style: TextStyle(
@@ -436,9 +437,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                
+
                 const SizedBox(height: 40),
-                
+
                 // Email field
                 CustomTextField(
                   controller: _emailController,
@@ -456,9 +457,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     return null;
                   },
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Password field
                 CustomTextField(
                   controller: _passwordController,
@@ -468,10 +469,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: _obscurePassword,
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                      _obscurePassword
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
                       color: AppColors.textSecondary,
                     ),
-                    onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                    onPressed: () =>
+                        setState(() => _obscurePassword = !_obscurePassword),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -480,9 +484,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     return null;
                   },
                 ),
-                
+
                 const SizedBox(height: 8),
-                
+
                 // Forgot Password
                 Align(
                   alignment: Alignment.centerRight,
@@ -497,9 +501,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 24),
-                
+
                 // Login Button
                 SizedBox(
                   height: 56,
@@ -519,7 +523,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: 24,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
                             ),
                           )
                         : const Text(
@@ -531,9 +536,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 24),
-                
+
                 // Register link
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -563,9 +568,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Divider with "OR"
                 Row(
                   children: [
@@ -593,9 +598,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Google Sign-In Button
                 SizedBox(
                   height: 56,
@@ -637,7 +642,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  
+
   Future<void> _handleGoogleSignIn() async {
     setState(() => _isLoading = true);
 
