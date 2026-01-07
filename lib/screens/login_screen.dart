@@ -170,9 +170,9 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => PopScope(
+      builder: (context) => const PopScope(
         canPop: false,
-        child: const Center(
+        child: Center(
           child: Card(
             child: Padding(
               padding: EdgeInsets.all(24.0),

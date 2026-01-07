@@ -12,7 +12,7 @@ class TestReportsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
-        title: Text('Test Reports Screen', style: AppStyles.heading3),
+        title: const Text('Test Reports Screen', style: AppStyles.heading3),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.chevron_left),
@@ -23,7 +23,7 @@ class TestReportsScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Test Screen Loaded Successfully',
               style: AppStyles.bodyMedium,
             ),

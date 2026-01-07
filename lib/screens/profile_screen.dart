@@ -92,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         leadingWidth: 110,
-        title: Text('Profile', style: AppStyles.heading3),
+        title: const Text('Profile', style: AppStyles.heading3),
         centerTitle: true,
       ),
       body: _isLoading
@@ -156,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                const Icon(
                   Icons.school_outlined,
                   size: 14,
                   color: AppColors.textGray,
@@ -181,7 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Container(
                 width: 100,
                 height: 100,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppColors.avatarOrange,
                   shape: BoxShape.circle,
                 ),
@@ -240,10 +240,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       color: AppColors.background,
       child: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: const Color(0xFF3B5998),
+          color: Color(0xFF3B5998),
           letterSpacing: 0.5,
         ),
       ),
@@ -307,12 +307,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-                Icon(Icons.lock_outline, size: 18, color: AppColors.textLight),
+                const Icon(Icons.lock_outline, size: 18, color: AppColors.textLight),
               ],
             ),
           ),
           const SizedBox(height: 6),
-          Text(
+          const Text(
             'Contact administration to correct this ID.',
             style: TextStyle(fontSize: 12, color: AppColors.textLight),
           ),
@@ -405,7 +405,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.vpn_key_outlined,
                   color: AppColors.textDark,
                   size: 20,

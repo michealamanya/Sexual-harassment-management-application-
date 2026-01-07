@@ -383,7 +383,7 @@ COUNSELOR RESPONSE:''';
   }
 
   Future<void> endChat() async {
-    final endingPrompt = '''
+    const endingPrompt = '''
 Generate a compassionate, professional closing message for someone ending a sexual harassment support chat session. The message should:
 - Thank them for their courage in reaching out
 - Remind them that support is always available

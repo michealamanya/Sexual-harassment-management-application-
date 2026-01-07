@@ -65,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
-        title: Text('Settings', style: AppStyles.heading2),
+        title: const Text('Settings', style: AppStyles.heading2),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
@@ -77,7 +77,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 shape: BoxShape.circle,
                 border: Border.all(color: AppColors.success, width: 2),
               ),
-              child: Center(
+              child: const Center(
                 child: Icon(Icons.person, color: AppColors.white, size: 20),
               ),
             ),
@@ -167,7 +167,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Container(
                   width: 56,
                   height: 56,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppColors.avatarOrange,
                     shape: BoxShape.circle,
                   ),
@@ -429,8 +429,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 }
               },
               borderRadius: BorderRadius.circular(16),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
                 child: Center(
                   child: Text('Log Out', style: AppStyles.dangerButtonText),
                 ),
@@ -468,11 +468,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              title: Row(
+              title: const Row(
                 children: [
                   Icon(Icons.lock_reset, color: AppColors.primary, size: 28),
-                  const SizedBox(width: 12),
-                  const Text('Reset Password'),
+                  SizedBox(width: 12),
+                  Text('Reset Password'),
                 ],
               ),
               content: SingleChildScrollView(
@@ -541,9 +541,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         context: context,
         barrierDismissible: false,
         builder:
-            (context) => PopScope(
+            (context) => const PopScope(
               canPop: false,
-              child: const Center(child: CircularProgressIndicator()),
+              child: Center(child: CircularProgressIndicator()),
             ),
       );
 
@@ -561,25 +561,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  title: Row(
+                  title: const Row(
                     children: [
                       Icon(Icons.check_circle, color: Colors.green, size: 28),
-                      const SizedBox(width: 12),
-                      const Text('Email Sent!'),
+                      SizedBox(width: 12),
+                      Text('Email Sent!'),
                     ],
                   ),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Password reset link has been sent to:',
                         style: TextStyle(fontSize: 14),
                       ),
                       const SizedBox(height: 8),
                       Text(
                         result,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
@@ -652,11 +652,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  title: Row(
+                  title: const Row(
                     children: [
                       Icon(Icons.error_outline, color: Colors.red, size: 28),
-                      const SizedBox(width: 12),
-                      const Text('Error'),
+                      SizedBox(width: 12),
+                      Text('Error'),
                     ],
                   ),
                   content: Text(e.toString()),
@@ -835,9 +835,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         context: context,
         barrierDismissible: false,
         builder:
-            (context) => PopScope(
+            (context) => const PopScope(
               canPop: false,
-              child: const Center(child: CircularProgressIndicator()),
+              child: Center(child: CircularProgressIndicator()),
             ),
       );
 

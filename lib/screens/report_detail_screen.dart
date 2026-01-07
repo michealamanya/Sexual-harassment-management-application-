@@ -27,7 +27,7 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           icon: const Icon(Icons.chevron_left, color: AppColors.primaryBlue),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Report Details', style: AppStyles.heading3),
+        title: const Text('Report Details', style: AppStyles.heading3),
         centerTitle: true,
       ),
       body: StreamBuilder<Report?>(
@@ -129,7 +129,7 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.privacy_tip, color: AppColors.primaryBlue),
+                        const Icon(Icons.privacy_tip, color: AppColors.primaryBlue),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(

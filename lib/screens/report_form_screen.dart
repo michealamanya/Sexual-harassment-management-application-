@@ -154,7 +154,7 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
-        title: Text('Submit a Report', style: AppStyles.heading3),
+        title: const Text('Submit a Report', style: AppStyles.heading3),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.chevron_left),
@@ -180,7 +180,7 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
                 ),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.info_outline,
                       color: AppColors.primaryBlue,
                       size: 20,
@@ -282,7 +282,7 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
                             : '${_incidentDate!.day}/${_incidentDate!.month}/${_incidentDate!.year}',
                         style: AppStyles.bodySmall,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.calendar_today,
                         color: AppColors.textGray,
                         size: 18,

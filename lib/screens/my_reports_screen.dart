@@ -33,7 +33,7 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
         appBar: AppBar(
           backgroundColor: AppColors.white,
           elevation: 0,
-          title: Text('My Reports', style: AppStyles.heading3),
+          title: const Text('My Reports', style: AppStyles.heading3),
           centerTitle: true,
           leading: IconButton(
             icon: const Icon(Icons.chevron_left),
@@ -44,9 +44,9 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.lock_outline, size: 48, color: AppColors.textGray),
+              const Icon(Icons.lock_outline, size: 48, color: AppColors.textGray),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 'Please log in to view your reports',
                 style: AppStyles.bodyMedium,
               ),
@@ -66,7 +66,7 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
-        title: Text('My Reports', style: AppStyles.heading3),
+        title: const Text('My Reports', style: AppStyles.heading3),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -102,7 +102,7 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.error_outline,
                           size: 48,
                           color: AppColors.error,
@@ -139,13 +139,13 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.folder_open,
                           size: 48,
                           color: AppColors.textGray,
                         ),
                         const SizedBox(height: 16),
-                        Text('No reports found', style: AppStyles.bodyMedium),
+                        const Text('No reports found', style: AppStyles.bodyMedium),
                         const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () {
@@ -317,7 +317,7 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
             // Date
             Row(
               children: [
-                Icon(Icons.calendar_today, size: 14, color: AppColors.textGray),
+                const Icon(Icons.calendar_today, size: 14, color: AppColors.textGray),
                 const SizedBox(width: 8),
                 Text(
                   _formatDate(report.submittedDate),
@@ -331,7 +331,7 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Icon(Icons.privacy_tip, size: 14, color: AppColors.textGray),
+                  const Icon(Icons.privacy_tip, size: 14, color: AppColors.textGray),
                   const SizedBox(width: 8),
                   Text(
                     'Anonymous Report',
@@ -418,18 +418,18 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
                   ],
                 ),
               ),
-            PopupMenuItem<String>(
+            const PopupMenuItem<String>(
               value: 'delete',
               child: Row(
                 children: [
                   Icon(Icons.delete, size: 18, color: AppColors.danger),
-                  const SizedBox(width: 12),
-                  const Text('Delete'),
+                  SizedBox(width: 12),
+                  Text('Delete'),
                 ],
               ),
             ),
           ],
-      icon: Icon(Icons.more_vert, color: AppColors.textGray, size: 20),
+      icon: const Icon(Icons.more_vert, color: AppColors.textGray, size: 20),
     );
   }
 

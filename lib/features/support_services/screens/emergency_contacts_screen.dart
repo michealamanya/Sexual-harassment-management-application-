@@ -78,7 +78,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
               children: [
                 _buildUrgentNotice(),
                 const SizedBox(height: 16),
-                EmergencyButton(
+                const EmergencyButton(
                   label: EmergencyConstants.immediateDangerLabel,
                   phoneNumber: EmergencyConstants.emergencyNumber,
                 ),

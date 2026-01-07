@@ -43,7 +43,7 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.shield_outlined,
                     size: 80,
                     color: Colors.blue,
@@ -109,9 +109,9 @@ class WelcomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Icon(Icons.person_outline, size: 24),
                         SizedBox(width: 12),
                         Text(
@@ -147,9 +147,9 @@ class WelcomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Icon(Icons.visibility_off_outlined, size: 24),
                         SizedBox(width: 12),
                         Text(
