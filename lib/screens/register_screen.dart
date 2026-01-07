@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:report_harassment/constants/app_colors.dart';
-import 'package:report_harassment/services/auth_service.dart';
-import 'package:report_harassment/widgets/custom_text_field.dart';
+import '../constants/app_colors.dart';
+import '../services/auth_service.dart';
+import '../widgets/custom_text_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -211,18 +211,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     filled: true,
                     fillColor: Colors.white,
                   ),
-                  items:
-                      _faculties.map((faculty) {
-                        return DropdownMenuItem(
-                          value: faculty,
-                          child: Text(
-                            faculty,
-                            style: const TextStyle(fontSize: 14),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                        );
-                      }).toList(),
+                  items: _faculties.map((faculty) {
+                    return DropdownMenuItem(
+                      value: faculty,
+                      child: Text(
+                        faculty,
+                        style: const TextStyle(fontSize: 14),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                    );
+                  }).toList(),
                   onChanged: (value) {
                     setState(() => _selectedFaculty = value);
                   },
@@ -267,10 +266,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           : Icons.visibility_off_outlined,
                       color: AppColors.textSecondary,
                     ),
-                    onPressed:
-                        () => setState(
-                          () => _obscurePassword = !_obscurePassword,
-                        ),
+                    onPressed: () => setState(
+                      () => _obscurePassword = !_obscurePassword,
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -306,25 +304,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       elevation: 0,
                     ),
-                    child:
-                        _isLoading
-                            ? const SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white,
-                                ),
-                              ),
-                            )
-                            : const Text(
-                              'Create Account',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                    child: _isLoading
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
                               ),
                             ),
+                          )
+                        : const Text(
+                            'Create Account',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ),
                 ),
 
