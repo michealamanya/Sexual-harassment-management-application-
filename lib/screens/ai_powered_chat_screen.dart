@@ -5,7 +5,7 @@ import '../services/enhanced_ai_service.dart';
 import '../config/ai_config.dart';
 
 class AIPoweredChatScreen extends StatefulWidget {
-  const AIPoweredChatScreen({super.key});
+  const AIPoweredChatScreen({Key? key}) : super(key: key);
 
   @override
   State<AIPoweredChatScreen> createState() => _AIPoweredChatScreenState();
@@ -390,7 +390,7 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
               border: Border.all(color: Colors.grey.shade300),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
+                  color: Colors.black.withOpacity(0.05),
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),
@@ -460,7 +460,7 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.08),
+                        color: Colors.black.withOpacity(0.08),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -989,7 +989,7 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
         width: 48,
         height: 48,
         decoration: BoxDecoration(
-          color: const Color(0xFF2f3293).withValues(alpha: 0.1),
+          color: const Color(0xFF2f3293).withOpacity(0.1),
           shape: BoxShape.circle,
         ),
         child: Icon(icon, color: const Color(0xFF2f3293)),

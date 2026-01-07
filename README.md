@@ -1,85 +1,97 @@
-# Report Safely - Sexual Harassment Management App
+# Sexual Harassment Management Application
 
-A Flutter-based mobile application designed to provide confidential support and resources for survivors of sexual harassment at MUST Campus. The app offers AI-powered chat support, emergency services, and comprehensive support resources.
+[![Status](https://img.shields.io/badge/Status-Prototype-blue)](https://github.com/) 
+[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/)
+[![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Mobile-orange)](https://github.com/)
 
-## Features
+A secure, confidential, and accessible digital platform designed to facilitate the reporting, management, and resolution of sexual harassment cases within institutions and organizations. 
 
-- **AI-Powered Chat Support** - Confidential conversations with an AI counselor trained in trauma-informed responses
-- **Emergency Services** - Quick access to campus security and emergency contacts
-- **Support Services** - Counseling, medical, and legal resources
-- **Incident Reporting** - Submit and track harassment reports
-- **Anonymous Options** - Report incidents without revealing your identity
+**"Speak Up. We are here to listen."**
 
-## Tech Stack
+---
 
-- Flutter 3.7+
-- Provider (State Management)
-- HTTP (Networking)
-- Hugging Face API (AI Chat)
+## Project Overview
 
-## Getting Started
+The **Sexual Harassment Management Application** addresses the critical need for a safe and trusted reporting mechanism. Traditional methods often fail due to lack of anonymity, fear of retaliation, and inefficient processing. This system leverages modern technology to provide:
 
-### Prerequisites
+- **Victim Protection:** Anonymous reporting and secure data handling.
+- **Accountability:** Transparent case tracking and management for administrators.
+- **Efficiency:** Streamlined workflows from reporting to resolution.
 
-- Flutter SDK ^3.7.2
-- Dart SDK
-- Android Studio / VS Code
-- iOS Simulator or Android Emulator
+## Key Features
 
-### Installation
+### For Victims & Witnesses
+- **Anonymous Reporting:** Submit reports without revealing identity if desired.
+- **Evidence Upload:** Securely attach images, documents, or text evidence.
+- **Real-time Tracking:** Monitor the status of your case (Pending, Under Review, Resolved).
+- **Instant Support:** Access to emergency contacts, counseling, and medical services.
 
-1. Clone the repository:
-```bash
-git clone https://github.com/michealamanya/Sexual-harassment-management-application-.git
-cd Sexual-harassment-management-application-
-```
+### For Administrators
+- **Secure Dashboard:** Role-based access to manage incoming cases.
+- **Case Management:** Tools to assign investigations, update statuses, and add notes.
+- **Analytics:** Generate reports to identify trends and improve institutional policies.
 
-2. Install dependencies:
-```bash
-flutter pub get
-```
+## Technology Stack
 
-3. Configure AI Service (optional):
-   - Get an API key from [Hugging Face](https://huggingface.co/)
-   - Update the key in `lib/services/enhanced_ai_service.dart`
+### Current Prototype
+The current version acts as a high-fidelity frontend prototype to demonstrate user flows and UI/UX.
+- **Frontend:** HTML5, CSS3, JavaScript
+- **Styling:** Tailwind CSS (via CDN)
+- **Icons:** Google Material Symbols
+- **Fonts:** Inter, Noto Sans
 
-4. Run the app:
-```bash
-flutter run
-```
+### Planned Architecture (Full Implementation)
+- **Frontend (Mobile/Web):** Flutter / React
+- **Backend API:** Django (Python) / Node.js
+- **Database:** PostgreSQL / MySQL
+- **Authentication:** JWT / OAuth2 with strictly Role-Based Access Control (RBAC)
 
 ## Project Structure
 
-```
-lib/
-├── config/          # App configuration (AI settings)
-├── constants/       # Colors, styles, and constants
-├── features/        # Feature modules (support services)
-├── screens/         # App screens (home, chat, emergency, etc.)
-├── services/        # Business logic and API services
-├── widgets/         # Reusable UI components
-└── main.dart        # App entry point
-```
+The repository organizes the prototype features into distinct modules:
 
-## Privacy & Security
+| Directory | Description |
+|-----------|-------------|
+| `1/`      | **Home Dashboard:** Main landing page for logged-in users. |
+| `2/`      | **Report Incident (Step 1):** Initial reporting screen (Incident Description). |
+| `3/`      | **Report Incident (Step 2):** Evidence upload and details. |
+| ...       | *Additional modules for settings, support, and admin views.* |
 
-- All conversations are confidential
-- Anonymous reporting available
-- Data encryption in transit
-- No personal data shared without consent
+## Getting Started
+
+To view the prototype locally:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/sexual-harassment-management-app.git
+    ```
+2.  **Navigate to the project directory:**
+    ```bash
+    cd sexual-harassment-management-app
+    ```
+3.  **Open the Prototype:**
+    - Open `1/code.html` in your web browser to see the **Home Dashboard**.
+    - Open `2/code.html` to see the **Reporting Flow**.
+
+## Security & Privacy
+
+Security is the cornerstone of this application.
+- **Encryption:** All sensitive headers and data are encrypted at rest and in transit.
+- **Anonymity:** The system is designed to strip metadata from anonymous reports.
+- **Compliance:** Adheres to institutional data protection standards and ethical guidelines.
 
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/your-feature`)
-3. Commit your changes (`git commit -m 'Add your feature'`)
-4. Push to the branch (`git push origin feature/your-feature`)
-5. Open a Pull Request
+Contributions are welcome! Please follow these steps:
+1.  Fork the repository.
+2.  Create a feature branch (`git checkout -b feature/AmazingFeature`).
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4.  Push to the branch (`git push origin feature/AmazingFeature`).
+5.  Open a Pull Request.
 
 ## License
 
-This project is for educational purposes at MUST Campus.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## Support
-
-For questions or support, contact the development team or open an issue on GitHub.
+---
+*Empowering safer environments through technology.*
