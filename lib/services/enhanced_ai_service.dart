@@ -20,7 +20,7 @@ class EnhancedAIService extends ChangeNotifier {
 
   // Configuration
   static const String _huggingFaceApiUrl =
-      'https://api-inference.huggingface.co/models';
+      'https://router.huggingface.co/hf-inference/models';
   static const String _apiKey =
       'YOUR_HUGGING_FACE_API_KEY'; // Replace with actual key
 
