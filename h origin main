@@ -1,0 +1,12 @@
+[33me4fc329[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Merge feature/support-services - resolved conflicts keeping main version
+[33m390f1ce[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m 
+[33m3ac1d67[m 
+[33m7dba72e[m 
+[33m2dfc26c[m 
+[33m325da7a[m 
+[33me90731b[m Update generated plugin files after adding new dependencies
+[33m07c36b1[m Fix test file - update package name and app class name to match actual implementation
+[33meda2b82[m Fix const error in enhanced_ai_service.dart - change const to final for string interpolation
+[33m2514e29[m Fix import paths in login_screen.dart - use relative imports instead of package imports
+[33md08c332[m Fix import paths in register_screen.dart - use relative imports instead of package imports
+[33ma8c76f0[m Add missing dependencies: url_launcher, firebase_auth, cloud_firestore, google_sign_in
