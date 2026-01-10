@@ -26,14 +26,25 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     )..repeat();
-    
+
     _aiService = EnhancedAIService();
     _initializeChat();
   }
 
   Future<void> _initializeChat() async {
-    await _aiService.connectToChat();
-    _scrollToBottom();
+    try {
+      await _aiService.connectToChat();
+      _scrollToBottom();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error initializing chat: $e'),
+            backgroundColor: Colors.red.shade600,
+          ),
+        );
+      }
+    }
   }
 
   void _sendMessage() {
@@ -77,21 +88,25 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
                       return ListView.builder(
                         controller: _scrollController,
                         padding: const EdgeInsets.all(16),
-                        itemCount: aiService.messages.length + 
-                                  (aiService.isAgentTyping ? 1 : 0) + 1,
+                        itemCount:
+                            aiService.messages.length +
+                            (aiService.isAgentTyping ? 1 : 0) +
+                            1,
                         itemBuilder: (context, index) {
                           if (index == 0) {
                             return _buildChatHeader();
                           }
-                          
+
                           final messageIndex = index - 1;
-                          
+
                           if (messageIndex < aiService.messages.length) {
-                            return _buildMessageBubble(aiService.messages[messageIndex]);
+                            return _buildMessageBubble(
+                              aiService.messages[messageIndex],
+                            );
                           } else if (aiService.isAgentTyping) {
                             return _buildAITypingIndicator();
                           }
-                          
+
                           return const SizedBox.shrink();
                         },
                       );
@@ -167,7 +182,7 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
                 Consumer<EnhancedAIService>(
                   builder: (context, aiService, child) {
                     return Text(
-                      aiService.isConnected 
+                      aiService.isConnected
                           ? 'AI-Powered • Encrypted • ${aiService.currentScenario.replaceAll('_', ' ').toUpperCase()}'
                           : 'Connecting to AI...',
                       style: TextStyle(
@@ -190,32 +205,33 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
         PopupMenuButton<String>(
           icon: const Icon(Icons.more_vert, color: Colors.black54),
           onSelected: _handleMenuAction,
-          itemBuilder: (context) => [
-            const PopupMenuItem(
-              value: 'model_info',
-              child: ListTile(
-                leading: Icon(Icons.info),
-                title: Text('AI Model Info'),
-                contentPadding: EdgeInsets.zero,
-              ),
-            ),
-            const PopupMenuItem(
-              value: 'quality_feedback',
-              child: ListTile(
-                leading: Icon(Icons.feedback),
-                title: Text('Response Quality'),
-                contentPadding: EdgeInsets.zero,
-              ),
-            ),
-            const PopupMenuItem(
-              value: 'transcript',
-              child: ListTile(
-                leading: Icon(Icons.description),
-                title: Text('Save Transcript'),
-                contentPadding: EdgeInsets.zero,
-              ),
-            ),
-          ],
+          itemBuilder:
+              (context) => [
+                const PopupMenuItem(
+                  value: 'model_info',
+                  child: ListTile(
+                    leading: Icon(Icons.info),
+                    title: Text('AI Model Info'),
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'quality_feedback',
+                  child: ListTile(
+                    leading: Icon(Icons.feedback),
+                    title: Text('Response Quality'),
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'transcript',
+                  child: ListTile(
+                    leading: Icon(Icons.description),
+                    title: Text('Save Transcript'),
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
+              ],
         ),
       ],
     );
@@ -286,10 +302,7 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
               Expanded(
                 child: Text(
                   'AI-powered responses • Scenario: ${aiService.currentScenario.replaceAll('_', ' ')}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.blue.shade700,
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.blue.shade700),
                 ),
               ),
               if (aiService.isAgentTyping)
@@ -331,7 +344,11 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
                   color: Colors.blue.shade100,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.psychology, color: Colors.blue.shade600, size: 16),
+                child: Icon(
+                  Icons.psychology,
+                  color: Colors.blue.shade600,
+                  size: 16,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -359,7 +376,7 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
             ],
           ),
         ),
-        
+
         _buildQuickActions(),
         const SizedBox(height: 20),
       ],
@@ -378,46 +395,50 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
     return Wrap(
       spacing: 8,
       runSpacing: 8,
-      children: quickActions.map((action) {
-        return InkWell(
-          onTap: () => _sendQuickAction(action),
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
+      children:
+          quickActions.map((action) {
+            return InkWell(
+              onTap: () => _sendQuickAction(action),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.grey.shade300),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
                 ),
-              ],
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  _getActionIcon(action),
-                  size: 14,
-                  color: const Color(0xFF2f3293),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.grey.shade300),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 6),
-                Text(
-                  action,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black87,
-                  ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      _getActionIcon(action),
+                      size: 14,
+                      color: const Color(0xFF2f3293),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      action,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        );
-      }).toList(),
+              ),
+            );
+          }).toList(),
     );
   }
 
@@ -432,11 +453,12 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
 
   Widget _buildMessageBubble(ChatMessage message) {
     final isUser = message.isFromUser;
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       child: Row(
-        mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment:
+            isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (!isUser) ...[
@@ -445,18 +467,31 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
           ],
           Flexible(
             child: Column(
-              crossAxisAlignment: isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               children: [
                 Container(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * 0.75,
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
-                    color: isUser ? const Color(0xFF2f3293) : _getMessageBubbleColor(message),
+                    color:
+                        isUser
+                            ? const Color(0xFF2f3293)
+                            : _getMessageBubbleColor(message),
                     borderRadius: BorderRadius.circular(20).copyWith(
-                      topLeft: isUser ? const Radius.circular(20) : const Radius.circular(6),
-                      topRight: isUser ? const Radius.circular(6) : const Radius.circular(20),
+                      topLeft:
+                          isUser
+                              ? const Radius.circular(20)
+                              : const Radius.circular(6),
+                      topRight:
+                          isUser
+                              ? const Radius.circular(6)
+                              : const Radius.circular(20),
                     ),
                     boxShadow: [
                       BoxShadow(
@@ -482,7 +517,8 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      if (!isUser && message.messageType == ChatMessageType.text) ...[
+                      if (!isUser &&
+                          message.messageType == ChatMessageType.text) ...[
                         const SizedBox(width: 8),
                         _buildQualityIndicator(message.text),
                       ],
@@ -538,10 +574,7 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
     return Container(
       width: 32,
       height: 32,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: backgroundColor, shape: BoxShape.circle),
       child: Icon(icon, color: iconColor, size: 18),
     );
   }
@@ -564,11 +597,7 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
 
     return Tooltip(
       message: 'Response Quality: ${(qualityScore * 100).toInt()}%',
-      child: Icon(
-        indicatorIcon,
-        size: 12,
-        color: indicatorColor,
-      ),
+      child: Icon(indicatorIcon, size: 12, color: indicatorColor),
     );
   }
 
@@ -587,11 +616,7 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.info_outline,
-              color: Colors.orange.shade600,
-              size: 16,
-            ),
+            Icon(Icons.info_outline, color: Colors.orange.shade600, size: 16),
             const SizedBox(width: 8),
             Flexible(
               child: Text(
@@ -628,16 +653,20 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
               color: Colors.purple.shade100,
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.psychology, color: Colors.purple.shade600, size: 18),
+            child: Icon(
+              Icons.psychology,
+              color: Colors.purple.shade600,
+              size: 18,
+            ),
           ),
           const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(16).copyWith(
-                topLeft: const Radius.circular(4),
-              ),
+              borderRadius: BorderRadius.circular(
+                16,
+              ).copyWith(topLeft: const Radius.circular(4)),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -672,9 +701,7 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(
-          top: BorderSide(color: Colors.grey.shade200),
-        ),
+        border: Border(top: BorderSide(color: Colors.grey.shade200)),
       ),
       child: SafeArea(
         child: Column(
@@ -721,9 +748,10 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
                             icon: Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: _isTyping 
-                                    ? const Color(0xFF2f3293)
-                                    : Colors.grey.shade400,
+                                color:
+                                    _isTyping
+                                        ? const Color(0xFF2f3293)
+                                        : Colors.grey.shade400,
                                 shape: BoxShape.circle,
                               ),
                               child: const Icon(
@@ -774,7 +802,11 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
     );
   }
 
-  Widget _buildInputAction(IconData icon, String label, VoidCallback onPressed) {
+  Widget _buildInputAction(
+    IconData icon,
+    String label,
+    VoidCallback onPressed,
+  ) {
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.circular(8),
@@ -802,7 +834,7 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
   String _formatMessageTime(ChatMessage message) {
     final now = DateTime.now();
     final difference = now.difference(message.timestamp);
-    
+
     if (difference.inMinutes < 1) {
       return 'Just now';
     } else if (difference.inMinutes < 60) {
@@ -822,55 +854,59 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
   void _callEmergency() {
     HapticFeedback.heavyImpact();
     _aiService.escalateToEmergency();
-    
+
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(Icons.warning, color: Colors.red.shade600),
-            const SizedBox(width: 8),
-            const Text('Emergency Protocol'),
-          ],
-        ),
-        content: const Text(
-          'Emergency services have been contacted. Campus security is being dispatched. The AI will continue to provide support.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
+      builder:
+          (context) => AlertDialog(
+            title: Row(
+              children: [
+                Icon(Icons.warning, color: Colors.red.shade600),
+                const SizedBox(width: 8),
+                const Text('Emergency Protocol'),
+              ],
+            ),
+            content: const Text(
+              'Emergency services have been contacted. Campus security is being dispatched. The AI will continue to provide support.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
   void _showAnalytics() {
     final analytics = _aiService.getSessionAnalytics();
-    
+
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Session Analytics'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Messages: ${analytics['messageCount']}'),
-            Text('Duration: ${analytics['sessionDuration']} minutes'),
-            Text('Current Scenario: ${analytics['scenariosDetected']}'),
-            Text('Crisis Detected: ${analytics['crisisDetected'] ? 'Yes' : 'No'}'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Session Analytics'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Messages: ${analytics['messageCount']}'),
+                Text('Duration: ${analytics['sessionDuration']} minutes'),
+                Text('Current Scenario: ${analytics['scenariosDetected']}'),
+                Text(
+                  'Crisis Detected: ${analytics['crisisDetected'] ? 'Yes' : 'No'}',
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -891,26 +927,33 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
   void _showModelInfo() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('AI Model Information'),
-        content: const Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Primary Model: microsoft/DialoGPT-large'),
-            Text('Specialized for: Sexual harassment support'),
-            Text('Training: Trauma-informed responses'),
-            Text('Safety: Content filtering enabled'),
-            Text('Privacy: End-to-end encrypted'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('AI Model Information'),
+            content: const Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Primary Model: Mixtral 8x7B'),
+                Text('Provider: Groq (Low-Latency LLM Inference)'),
+                Text('Specialized for: Sexual harassment support'),
+                Text('Training: Trauma-informed responses'),
+                Text('Safety: Content filtering enabled'),
+                Text('Privacy: End-to-end encrypted'),
+                SizedBox(height: 8),
+                Text(
+                  'Powered by Groq\'s LPU technology for fast, accurate responses.',
+                  style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -922,9 +965,9 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
   }
 
   void _saveTranscript() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Transcript saved securely')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Transcript saved securely')));
   }
 
   void _showAttachmentOptions() {
@@ -933,48 +976,49 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(2),
-                ),
+      builder:
+          (context) => SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Share Evidence Securely',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildAttachmentOption(
+                    Icons.photo_camera,
+                    'Camera',
+                    'Take a photo as evidence',
+                    () {},
+                  ),
+                  _buildAttachmentOption(
+                    Icons.photo_library,
+                    'Photo Library',
+                    'Choose from gallery',
+                    () {},
+                  ),
+                  _buildAttachmentOption(
+                    Icons.description,
+                    'Document',
+                    'Share a document or screenshot',
+                    () {},
+                  ),
+                ],
               ),
-              const SizedBox(height: 20),
-              const Text(
-                'Share Evidence Securely',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              _buildAttachmentOption(
-                Icons.photo_camera,
-                'Camera',
-                'Take a photo as evidence',
-                () {},
-              ),
-              _buildAttachmentOption(
-                Icons.photo_library,
-                'Photo Library',
-                'Choose from gallery',
-                () {},
-              ),
-              _buildAttachmentOption(
-                Icons.description,
-                'Document',
-                'Share a document or screenshot',
-                () {},
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
     );
   }
 
@@ -1006,27 +1050,28 @@ class _AIPoweredChatScreenState extends State<AIPoweredChatScreen>
   void _showEndChatDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('End AI Chat Session'),
-        content: const Text(
-          'Are you sure you want to end this AI-powered chat session? The conversation will be saved securely.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('End AI Chat Session'),
+            content: const Text(
+              'Are you sure you want to end this AI-powered chat session? The conversation will be saved securely.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _aiService.endChat();
+                  Navigator.pop(context);
+                },
+                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                child: const Text('End Chat'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _aiService.endChat();
-              Navigator.pop(context);
-            },
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('End Chat'),
-          ),
-        ],
-      ),
     );
   }
 

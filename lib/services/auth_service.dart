@@ -36,8 +36,8 @@ class AuthService {
   }) async {
     try {
       // Convert student ID to email format
-      String email = '$studentId@must.ac.mw';
-      
+      String email = '$studentId@must.ac.ug';
+
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -59,7 +59,8 @@ class AuthService {
   }) async {
     try {
       // Create user account
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -95,7 +96,7 @@ class AuthService {
     try {
       // Convert student ID to email format
       String email = '$studentId@must.ac.mw';
-      
+
       return await registerWithEmail(
         email: email,
         password: password,
@@ -114,14 +115,15 @@ class AuthService {
     try {
       // Trigger the Google Sign-In flow
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      
+
       if (googleUser == null) {
         // User canceled the sign-in
         throw 'Sign in cancelled';
       }
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       // Create a new credential
       final credential = GoogleAuthProvider.credential(
@@ -130,7 +132,8 @@ class AuthService {
       );
 
       // Sign in to Firebase with the Google credential
-      UserCredential userCredential = await _auth.signInWithCredential(credential);
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
 
       // Check if this is a new user, if so create their profile
       if (userCredential.additionalUserInfo?.isNewUser ?? false) {
@@ -157,7 +160,8 @@ class AuthService {
   // Get user data from Firestore
   Future<Map<String, dynamic>?> getUserData(String uid) async {
     try {
-      DocumentSnapshot doc = await _firestore.collection('users').doc(uid).get();
+      DocumentSnapshot doc =
+          await _firestore.collection('users').doc(uid).get();
       if (doc.exists) {
         return doc.data() as Map<String, dynamic>?;
       }
@@ -250,13 +254,13 @@ class AuthService {
           if (googleUser == null) {
             throw 'Google sign-in cancelled';
           }
-          
+
           final googleAuth = await googleUser.authentication;
           final credential = GoogleAuthProvider.credential(
             accessToken: googleAuth.accessToken,
             idToken: googleAuth.idToken,
           );
-          
+
           await user.reauthenticateWithCredential(credential);
         } catch (e) {
           throw 'Failed to re-authenticate with Google: ${e.toString()}';
@@ -266,12 +270,12 @@ class AuthService {
         if (email == null || email.isEmpty) {
           throw 'User email not found';
         }
-        
+
         final credential = EmailAuthProvider.credential(
           email: email,
           password: password,
         );
-        
+
         await user.reauthenticateWithCredential(credential);
       }
 
@@ -283,7 +287,7 @@ class AuthService {
           .collection('reports')
           .where('userId', isEqualTo: uid)
           .get();
-      
+
       for (var doc in reportsSnapshot.docs) {
         await doc.reference.delete();
       }
@@ -293,7 +297,7 @@ class AuthService {
           .collection('chats')
           .where('userId', isEqualTo: uid)
           .get();
-      
+
       for (var doc in chatsSnapshot.docs) {
         await doc.reference.delete();
       }
@@ -323,17 +327,17 @@ class AuthService {
     try {
       // Validate email format
       email = email.trim().toLowerCase();
-      
+
       if (email.isEmpty) {
         throw 'Email address cannot be empty';
       }
-      
+
       if (!email.contains('@') || !email.contains('.')) {
         throw 'Please enter a valid email address';
       }
-      
+
       print('DEBUG: Attempting to send password reset email to: $email');
-      
+
       // Configure action code settings for better email delivery
       final actionCodeSettings = ActionCodeSettings(
         url: 'https://sexual-harrasment-management.firebaseapp.com',
@@ -341,13 +345,13 @@ class AuthService {
         androidPackageName: 'com.must.report_harassment',
         androidInstallApp: false,
       );
-      
+
       // Send password reset email
       await _auth.sendPasswordResetEmail(
         email: email,
         actionCodeSettings: actionCodeSettings,
       );
-      
+
       print('DEBUG: ✅ Password reset email sent successfully!');
       print('DEBUG: Email sent to: $email');
       print('DEBUG: Check:');
@@ -355,8 +359,9 @@ class AuthService {
       print('  2. Spam/Junk/Promotions folders');
       print('  3. Make sure you registered with this exact email address');
     } on FirebaseAuthException catch (e) {
-      print('DEBUG: ❌ FirebaseAuthException - Code: ${e.code}, Message: ${e.message}');
-      
+      print(
+          'DEBUG: ❌ FirebaseAuthException - Code: ${e.code}, Message: ${e.message}');
+
       // Handle specific Firebase errors
       if (e.code == 'user-not-found') {
         throw 'No account found with this email address.\n\nPlease make sure:\n• You have registered an account\n• The email address is correct';

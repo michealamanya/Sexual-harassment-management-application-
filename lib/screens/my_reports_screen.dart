@@ -52,8 +52,10 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
               ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Go Back'),
+                //go to login screen
+                onPressed: () => Navigator.pushNamed(context, '/login'),
+                child: const Text('Go to Login'),
+
               ),
             ],
           ),

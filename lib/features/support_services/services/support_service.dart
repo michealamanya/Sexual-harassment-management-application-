@@ -108,7 +108,7 @@ class SupportService {
         serviceType: ServiceType.crisis,
         isAvailable24Hours: true,
         isConfidential: true,
-        isFree: true,
+        isFree: true, specializations: [],
       ),
       CounselingService(
         id: '2',
@@ -120,7 +120,7 @@ class SupportService {
         website: 'https://traumarecovery.org',
         serviceType: ServiceType.trauma,
         isConfidential: true,
-        isFree: false,
+        isFree: false, specializations: [],
       ),
       CounselingService(
         id: '3',
@@ -132,7 +132,7 @@ class SupportService {
         serviceType: ServiceType.online,
         isAvailable24Hours: true,
         isConfidential: true,
-        isFree: true,
+        isFree: true, specializations: [],
       ),
     ];
   }

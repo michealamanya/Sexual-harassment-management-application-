@@ -30,6 +30,10 @@ Thumbs.db
 # API Keys (security)
 lib/config/api_keys.dart
 *.env
+.env
+.env.local
+.env.*.local
+.env.production
 
 # Logs
 *.log

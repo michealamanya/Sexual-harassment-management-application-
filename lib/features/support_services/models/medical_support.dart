@@ -71,7 +71,7 @@ enum MedicalServiceType {
   clinic,
   specializedCenter,
   mentalHealth,
-  general,
+  general, emergencyCare,
 }
 
 extension MedicalServiceTypeExtension on MedicalServiceType {
@@ -87,6 +87,9 @@ extension MedicalServiceTypeExtension on MedicalServiceType {
         return 'Mental Health Facility';
       case MedicalServiceType.general:
         return 'General Medical';
+      case MedicalServiceType.emergencyCare:
+        // TODO: Handle this case.
+        throw UnimplementedError();
     }
   }
 }
