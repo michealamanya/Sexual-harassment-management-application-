@@ -35,9 +35,9 @@ dependencies:
   # Permissions
   permission_handler: ^11.0.1
   
-  # Audio Recording
-  record: ^5.0.4
-  audioplayers: ^5.2.1
+  # Audio Recording - disabled for faster builds (requires NDK)
+  # record: ^5.0.4
+  # audioplayers: ^5.2.1
   
   # Encryption & Security
   crypto: ^3.0.3
