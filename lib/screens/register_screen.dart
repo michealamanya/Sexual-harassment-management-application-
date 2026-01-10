@@ -97,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -110,7 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Title
-                Text(
+                const Text(
                   'Create Account',
                   style: TextStyle(
                     fontSize: 28,
@@ -121,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 const SizedBox(height: 8),
 
-                Text(
+                const Text(
                   'Register to get started',
                   style: TextStyle(
                     fontSize: 16,
@@ -189,7 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     labelText: 'Faculty',
                     hintText: 'Select your faculty',
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.school_outlined,
                       color: AppColors.textSecondary,
                     ),
@@ -203,7 +203,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: AppColors.primary,
                         width: 2,
                       ),
@@ -328,7 +328,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 16),
 
                 // Terms and Conditions
-                Text(
+                const Text(
                   'By creating an account, you agree to our Terms of Service and Privacy Policy',
                   style: TextStyle(
                     fontSize: 12,

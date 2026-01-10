@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColors.primary, width: 2),
+                    borderSide: const BorderSide(color: AppColors.primary, width: 2),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: Text(
+              child: const Text(
                 'Cancel',
                 style: TextStyle(color: AppColors.textSecondary),
               ),
@@ -392,7 +392,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.primary),
+          icon: const Icon(Icons.arrow_back, color: AppColors.primary),
           onPressed: () => Navigator.pop(context),
           tooltip: 'Back to Welcome',
         ),
@@ -408,7 +408,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 20),
 
                 // Logo or App Icon
-                Icon(
+                const Icon(
                   Icons.shield_outlined,
                   size: 80,
                   color: AppColors.primary,
@@ -417,7 +417,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 24),
 
                 // Title
-                Text(
+                const Text(
                   'Welcome Back',
                   style: TextStyle(
                     fontSize: 28,
@@ -429,7 +429,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 8),
 
-                Text(
+                const Text(
                   'Sign in to continue',
                   style: TextStyle(
                     fontSize: 16,
@@ -492,7 +492,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: _handleForgotPassword,
-                    child: Text(
+                    child: const Text(
                       'Forgot Password?',
                       style: TextStyle(
                         color: AppColors.primary,
@@ -543,7 +543,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Don't have an account? ",
                       style: TextStyle(
                         color: AppColors.textSecondary,
@@ -558,7 +558,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Register',
                         style: TextStyle(
                           color: AppColors.primary,
@@ -580,8 +580,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         thickness: 1,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
                         'OR',
                         style: TextStyle(
@@ -625,7 +625,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },
                     ),
-                    label: Text(
+                    label: const Text(
                       'Continue with Google',
                       style: TextStyle(
                         fontSize: 16,
